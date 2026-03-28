@@ -1,9 +1,15 @@
 """Hubspace integration."""
 
 import logging
+from pathlib import Path
 
 from aioafero import InvalidAuth
 from aioafero.v1 import AferoBridgeV1
+from homeassistant.components.frontend import (
+    async_register_built_in_panel,
+    async_remove_panel,
+)
+from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_TIMEOUT, CONF_TOKEN, CONF_USERNAME
 from homeassistant.core import HomeAssistant
@@ -22,6 +28,45 @@ from .services import async_register_services
 
 _LOGGER = logging.getLogger(__name__)
 
+PANEL_URL_PATH = "hubspace-freezers"
+PANEL_TITLE = "Hubspace Freezers"
+PANEL_ICON = "mdi:snowflake"
+PANEL_ELEMENT = "hubspace-freezer-panel"
+PANEL_STATIC_URL = "/hubspace_panel/hubspace-panel.js"
+PANEL_DATA_KEY = f"{DOMAIN}_panel"
+
+
+async def _async_register_panel(hass: HomeAssistant) -> bool:
+    """Register the Hubspace freezer control panel."""
+    panel_file = Path(__file__).resolve().parent / "frontend" / "hubspace-panel.js"
+    panel_data = hass.data.setdefault(PANEL_DATA_KEY, {})
+    if hass.http is None:
+        _LOGGER.debug("Skipping Hubspace freezer panel registration; HTTP not ready")
+        return False
+    if not panel_data.get("static_registered"):
+        await hass.http.async_register_static_paths(
+            [StaticPathConfig(PANEL_STATIC_URL, str(panel_file), cache_headers=False)]
+        )
+        panel_data["static_registered"] = True
+    async_register_built_in_panel(
+        hass,
+        component_name="custom",
+        sidebar_title=PANEL_TITLE,
+        sidebar_icon=PANEL_ICON,
+        frontend_url_path=PANEL_URL_PATH,
+        config={
+            "_panel_custom": {
+                "name": PANEL_ELEMENT,
+                "module_url": PANEL_STATIC_URL,
+                "embed_iframe": False,
+                "trust_external": True,
+            },
+            "title": PANEL_TITLE,
+        },
+        require_admin=False,
+    )
+    return True
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Hubspace as config entry."""
@@ -30,6 +75,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         return False
 
     async_register_services(hass)
+    panel_data = hass.data.setdefault(PANEL_DATA_KEY, {})
+    if not panel_data.get("registered"):
+        panel_data["registered"] = await _async_register_panel(hass)
+        if panel_data["registered"]:
+            panel_data["entry_count"] = 0
+    if panel_data.get("registered"):
+        panel_data["entry_count"] = int(panel_data.get("entry_count", 0)) + 1
 
     device_registry = dr.async_get(hass)
     device_registry.async_get_or_create(
@@ -164,6 +216,13 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         unload_success = await hass.data[DOMAIN][entry.entry_id].async_reset()
     except KeyError:
         unload_success = True
-    if len(hass.data[DOMAIN]) == 0:
+    panel_data = hass.data.get(PANEL_DATA_KEY)
+    if unload_success and panel_data and panel_data.get("registered"):
+        remaining = max(int(panel_data.get("entry_count", 1)) - 1, 0)
+        panel_data["entry_count"] = remaining
+        if remaining == 0:
+            async_remove_panel(hass, PANEL_URL_PATH)
+            panel_data["registered"] = False
+    if not hass.data.get(DOMAIN):
         hass.data.pop(DOMAIN)
     return unload_success

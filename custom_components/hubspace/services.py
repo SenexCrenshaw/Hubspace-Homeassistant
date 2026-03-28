@@ -119,7 +119,9 @@ async def find_bridge(hass: HomeAssistant, username: str) -> HubspaceBridge | No
         HubspaceBridge if found, None otherwise
 
     """
-    for bridge in hass.data[DOMAIN].values():
+    for bridge in hass.data.get(DOMAIN, {}).values():
+        if not isinstance(bridge, HubspaceBridge):
+            continue
         if username is None:
             return bridge
         if bridge.config_entry.data[CONF_USERNAME] == username:

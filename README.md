@@ -254,6 +254,23 @@ click `SUBMIT`. Entities should start appearing shortly after clicking submit.
 After discovered, the poll time can be configured for quicker or longer
 polling intervals. By default, Hubspace is polled once every 30 seconds.
 
+## Freezer Panel
+
+The integration adds a `Hubspace Freezers` sidebar page in Home Assistant. The
+page groups each freezer's existing Home Assistant entities into one place so
+you can adjust target
+temperatures, mode, temperature units, and super-cold from the UI without
+digging through entity lists.
+
+The panel reuses the same entities created by the integration, so controls on
+that page call the normal Home Assistant services for:
+
+- `number.*_freezer_target_temperature`
+- `number.*_fridge_target_temperature`
+- `select.*_mode`
+- `select.*_temperature_units`
+- `switch.*_super_cold`
+
 ## Automation Blueprints
 
 This repo includes optional freezer-focused automation blueprints for Home Assistant `2025.7`
@@ -270,25 +287,26 @@ Available blueprints:
 
   - Watches Hubspace freezer alert binary sensors and runs alert and clear actions.
   - Expected entities: freezer high temp alert, fridge high temp alert, sensor failure, MCU communication failure binary sensors.
-  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_safety_alerts.yaml`
+  - Import URL: `https://raw.githubusercontent.com/SenexCrenshaw/Hubspace-Homeassistant/main/blueprints/automation/hubspace/freezer_safety_alerts.yaml`
 
 - [Freezer super cold cycle](./blueprints/automation/hubspace/freezer_super_cold_cycle.yaml)
 
   - Starts the Hubspace super-cold switch from any trigger and optionally reports completion or timeout.
   - Expected entities: `switch.*_super_cold`, optional `sensor.*_freezer_super_cold_status`, optional `sensor.*_refrigerator_super_cold_status`.
-  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_super_cold_cycle.yaml`
+  - Import URL: `https://raw.githubusercontent.com/SenexCrenshaw/Hubspace-Homeassistant/main/blueprints/automation/hubspace/freezer_super_cold_cycle.yaml`
 
 - [Freezer temperature profile](./blueprints/automation/hubspace/freezer_temperature_profile.yaml)
 
   - Applies temporary freezer and optional fridge target temperatures, then restores the previous values.
   - Expected entities: `number.*_freezer_target_temperature`, optional `number.*_fridge_target_temperature`.
-  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_temperature_profile.yaml`
+  - Import URL: `https://raw.githubusercontent.com/SenexCrenshaw/Hubspace-Homeassistant/main/blueprints/automation/hubspace/freezer_temperature_profile.yaml`
 
 Notes:
 
 - these blueprints are optional helpers; they do not add or change Hubspace entities
 - blueprint updates are manual re-imports; HACS will continue to manage only the integration itself
 - imported blueprints can be customized per automation from the Home Assistant UI after import
+- replace `main` in the import URL with a release tag such as `6.1.5` if you want a version-pinned import instead of tracking the latest blueprint revision
 
 ## Release Workflow
 

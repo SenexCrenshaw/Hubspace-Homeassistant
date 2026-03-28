@@ -13,8 +13,14 @@ from .utils import create_devices_from_data, get_mocked_bridge, get_mocked_entry
 
 
 @pytest.fixture(autouse=True)
-def hubspace_migration(mocked_bridge, mocker):
-    """Mock the Bridge."""
+def hubspace_migration(mocker):
+    """Mock bridge creation used during config entry migrations."""
+    mocked_bridge = mocker.Mock(refresh_token="mock-refresh-token")
+    mocked_bridge.get_account_id = mocker.AsyncMock(return_value="mocked-account-id")
+    mocker.patch(
+        "custom_components.hubspace.aiohttp_client.async_get_clientsession",
+        return_value=mocker.AsyncMock(),
+    )
     mocker.patch("custom_components.hubspace.AferoBridgeV1", return_value=mocked_bridge)
     return mocked_bridge
 
@@ -267,6 +273,46 @@ async def test_perform_v5_migration_from_v4(v4_config_entry):
 
 
 @pytest.mark.asyncio
+async def test_panel_registered_on_setup(mocked_entry, mocker):
+    """Ensure the freezer panel is registered when the integration loads."""
+    hass, entry, _ = mocked_entry
+    register_panel = mocker.patch(
+        "custom_components.hubspace._async_register_panel",
+        new=mocker.AsyncMock(return_value=True),
+    )
+
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    register_panel.assert_awaited_once_with(hass)
+    assert hass.data[hubspace.PANEL_DATA_KEY]["registered"] is True
+    assert hass.data[hubspace.PANEL_DATA_KEY]["entry_count"] == 1
+
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()
+
+
+@pytest.mark.asyncio
+async def test_panel_removed_on_unload(mocked_entry, mocker):
+    """Ensure the freezer panel is removed when the last entry unloads."""
+    hass, entry, _ = mocked_entry
+    mocker.patch(
+        "custom_components.hubspace._async_register_panel",
+        new=mocker.AsyncMock(return_value=True),
+    )
+    remove_panel = mocker.patch("custom_components.hubspace.async_remove_panel")
+
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()
+
+    remove_panel.assert_called_once_with(hass, hubspace.PANEL_URL_PATH)
+    assert const.DOMAIN not in hass.data
+    assert hass.data[hubspace.PANEL_DATA_KEY]["registered"] is False
+
+
+@pytest.mark.asyncio
 async def test_reload(hass, mocker):
     """Ensure we can reload the config entry."""
     fan_zandra = create_devices_from_data("fan-ZandraFan.json")
@@ -293,8 +339,9 @@ async def test_reload(hass, mocker):
         (dr.CONNECTION_BLUETOOTH, "cb948b76-713f-4a20-8ad4-2abc97b402c8"),
     }
     # Test reload
-    await hubspace.async_unload_entry(hass, entry)
+    assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()
+    await bridge.close()
     bridge = get_mocked_bridge(mocker)
     await bridge.initialize()
     await bridge.async_block_until_done()
@@ -316,3 +363,6 @@ async def test_reload(hass, mocker):
         (dr.CONNECTION_NETWORK_MAC, "abbc66b9-d102-4404-9b14-f7d62fec1d2c"),
         (dr.CONNECTION_BLUETOOTH, "cb948b76-713f-4a20-8ad4-2abc97b402c8"),
     }
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()
+    await bridge.close()
