@@ -1,15 +1,24 @@
 {
   "domain": "hubspace",
   "name": "hubspace",
-  "codeowners": ["@jdeath", "@Expl0dingBanana"],
+  "codeowners": [
+    "@jdeath",
+    "@Expl0dingBanana"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/jdeath/Hubspace-Homeassistant/blob/main/README.md",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/jdeath/Hubspace-Homeassistant/issues",
-  "loggers": ["aioafero"],
-  "requirements": ["aioafero==6.2.0", "aiofiles", "packaging"],
+  "loggers": [
+    "aioafero"
+  ],
+  "requirements": [
+    "aioafero==6.2.0",
+    "aiofiles",
+    "packaging"
+  ],
   "single_config_entry": true,
-  "version": "6.1.0"
+  "version": "6.1.1"
 }
