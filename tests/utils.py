@@ -174,16 +174,25 @@ def modify_state(device: AferoDevice, new_state: AferoState):
 
 def get_mocked_bridge(mocker) -> v1.AferoBridgeV1:
     """Create a mocked afero bridge to be used in tests."""
-    mocker.patch("aioafero.v1.controllers.event.EventStream.gather_data")
-
+    mock_session = mocker.AsyncMock()
     bridge: v1.AferoBridgeV1 = v1.AferoBridgeV1(
-        "username2", "password2", temperature_unit=TemperatureUnit.CELSIUS
+        "username2",
+        "password2",
+        session=mock_session,
+        temperature_unit=TemperatureUnit.CELSIUS,
     )
     mocker.patch.object(bridge, "_account_id", "mocked-account-id")
     mocker.patch.object(bridge, "request", side_effect=mocker.AsyncMock())
     mocker.patch.object(bridge.events, "_first_poll_completed", True)
     mocker.patch.object(
-        bridge, "fetch_data", side_effect=mocker.AsyncMock(return_value=[])
+        bridge,
+        "fetch_discovery_data",
+        side_effect=mocker.AsyncMock(return_value=[]),
+    )
+    mocker.patch.object(
+        bridge,
+        "fetch_all_device_states",
+        side_effect=mocker.AsyncMock(return_value=[]),
     )
 
     bridge.set_token_data(
@@ -197,22 +206,12 @@ def get_mocked_bridge(mocker) -> v1.AferoBridgeV1:
 
     # Enable ad-hoc polls
     async def generate_events_from_data(data):
-        task = asyncio.create_task(bridge.events.generate_events_from_data(data))
-        await task
-        raw_data = await bridge.events.generate_events_from_data(data)
-        mocker.patch(
-            "aioafero.v1.controllers.event.EventStream.gather_data",
-            return_value=raw_data,
-        )
+        await bridge.events.generate_events_from_data(data)
         await bridge.async_block_until_done()
 
     # Fake a poll for discovery
     async def generate_devices_from_data(devices: list[AferoDevice]):
         raw_data = [hs_raw_from_device(device) for device in devices]
-        mocker.patch(
-            "aioafero.v1.controllers.event.EventStream.gather_data",
-            return_value=raw_data,
-        )
         await bridge.events.generate_events_from_data(raw_data)
         await bridge.async_block_until_done()
 
@@ -267,6 +266,10 @@ def get_mocked_entry(hass, mocker, mocked_bridge) -> MockConfigEntry:
         minor_version=VERSION_MINOR,
     )
     entry.add_to_hass(hass)
+    mocker.patch(
+        "custom_components.hubspace.bridge.aiohttp_client.async_get_clientsession",
+        return_value=mocker.AsyncMock(),
+    )
     mocker.patch(
         "custom_components.hubspace.bridge.AferoBridgeV1", return_value=mocked_bridge
     )
