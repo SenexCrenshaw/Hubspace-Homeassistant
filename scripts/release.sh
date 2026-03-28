@@ -19,10 +19,9 @@ Usage:
   scripts/release.sh --current [--push|--no-push] [--github-release] [--remote <name>] [--dry-run]
 
 Behavior:
-  - Bump mode expects your release changes to already be staged.
-  - Bump mode updates custom_components/hubspace/manifest.json, commits the staged changes,
-    creates an annotated tag matching the manifest version, then optionally pushes and
-    creates a GitHub release.
+  - Bump mode updates custom_components/hubspace/manifest.json, commits the version bump
+    plus any staged changes, creates an annotated tag matching the manifest version,
+    then optionally pushes and creates a GitHub release.
   - Current mode skips the version bump and commit, and just tags/releases the current HEAD.
   - Push defaults to on. Dry-run disables push unless you explicitly pass --push.
 
@@ -136,12 +135,6 @@ ensure_no_unstaged_tracked_changes() {
   fi
 }
 
-ensure_staged_changes() {
-  if git -C "$ROOT_DIR" diff --cached --quiet --ignore-submodules --; then
-    die "no staged changes found; stage the files you want in the release commit first"
-  fi
-}
-
 ensure_no_staged_changes() {
   if ! git -C "$ROOT_DIR" diff --cached --quiet --ignore-submodules --; then
     die "--current requires no staged changes"
@@ -245,7 +238,6 @@ if [[ "$CURRENT_ONLY" -eq 1 ]]; then
   ensure_no_staged_changes
 else
   ensure_no_unstaged_tracked_changes
-  ensure_staged_changes
   NEXT_VERSION="$(resolve_version "$CURRENT_VERSION" "$VERSION_ARG")"
   if [[ "$NEXT_VERSION" == "$CURRENT_VERSION" ]]; then
     die "next version matches current manifest version '$CURRENT_VERSION'"
