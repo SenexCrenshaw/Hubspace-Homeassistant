@@ -155,11 +155,26 @@ create_github_release() {
     die "gh CLI is required for --github-release"
   fi
 
-  run gh release create \
+  run gh -R "$(remote_repo_slug "$REMOTE")" release create \
     "$1" \
     --verify-tag \
     --title "$1" \
     --generate-notes
+}
+
+remote_repo_slug() {
+  python3 - "$(git -C "$ROOT_DIR" remote get-url "$1")" <<'PY'
+import re
+import sys
+
+remote_url = sys.argv[1]
+match = re.search(r"github\.com[:/]([^/]+)/([^/]+?)(?:\.git)?$", remote_url)
+if match is None:
+    raise SystemExit(
+        f"Unsupported remote URL for GitHub release creation: {remote_url}"
+    )
+print(f"{match.group(1)}/{match.group(2)}")
+PY
 }
 
 VERSION_ARG=""
