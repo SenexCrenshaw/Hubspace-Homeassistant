@@ -18,6 +18,12 @@ are as follows:
 - Freezer
 
   - Error sensors
+  - Freezer target temperature
+  - Fridge target temperature
+  - Mode
+  - Temperature units
+  - Super cold toggle
+  - Super cold completion sensors
 
 - Lock
 
@@ -66,6 +72,10 @@ are as follows:
   - Open / Close
 
 ## Changelog
+
+- 6.1.0
+
+  - Add full freezer support for target temperatures, mode, temperature units, super cold control, and related status sensors
 
 - 6.0.0
 
@@ -243,6 +253,25 @@ click `SUBMIT`. Entities should start appearing shortly after clicking submit.
 
 After discovered, the poll time can be configured for quicker or longer
 polling intervals. By default, Hubspace is polled once every 30 seconds.
+
+## Release Workflow
+
+Stage the files you want to release first, then use the make targets below to bump
+the version in `custom_components/hubspace/manifest.json`, create a release commit,
+create an annotated git tag, and optionally push and publish a GitHub release.
+
+```bash
+make release-patch
+make release-minor PUSH=1
+make release VERSION=6.1.1 PUSH=1 GH_RELEASE=1
+make publish-current PUSH=1 GH_RELEASE=1
+```
+
+Notes:
+
+- `make release-patch`, `make release-minor`, and `make release-major` expect your intended release changes to already be staged
+- `make publish-current` skips the version bump and commit, and just tags/releases the current `HEAD` using the version already present in `manifest.json`
+- `GH_RELEASE=1` uses `gh release create --generate-notes`, so the GitHub CLI must be installed and authenticated
 
 ### Configuration Troubleshooting
 
