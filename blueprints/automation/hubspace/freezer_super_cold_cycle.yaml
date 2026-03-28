@@ -1,0 +1,208 @@
+---
+blueprint:
+  name: Hubspace Freezer Super Cold Cycle
+  description: >-
+    Start a Hubspace freezer super-cold cycle from any trigger, then optionally
+    notify when the cycle starts, completes, or times out.
+
+    Available action variables:
+    - `super_cold_switch_name`
+    - `freezer_completion_state`
+    - `refrigerator_completion_state`
+    - `cycle_completed`
+  domain: automation
+  author: SenexCrenshaw
+  homeassistant:
+    min_version: 2025.7.0
+  input:
+    trigger_section:
+      name: Trigger
+      icon: mdi:lightning-bolt-outline
+      input:
+        cycle_trigger:
+          name: Start trigger
+          description: >-
+            Choose the trigger that should start the
+            super-cold cycle.
+          selector:
+            trigger: {}
+    entity_section:
+      name: Entities
+      icon: mdi:snowflake-thermometer
+      input:
+        super_cold_switch:
+          name: Super cold switch
+          description: Select the Hubspace freezer super-cold switch.
+          selector:
+            entity:
+              filter:
+                - domain: switch
+        freezer_completion_sensor:
+          name: Freezer completion sensor
+          description: >-
+            Optional. Select the freezer super-cold status sensor if your device
+            exposes one.
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: sensor
+        refrigerator_completion_sensor:
+          name: Refrigerator completion sensor
+          description: >-
+            Optional. Select the refrigerator super-cold status sensor if your
+            device exposes one.
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: sensor
+    behavior_section:
+      name: Cycle Behavior
+      icon: mdi:timer-outline
+      input:
+        max_runtime:
+          name: Max runtime
+          description: >-
+            Used as the completion timeout or as the full
+            cycle length when no completion sensors are
+            configured.
+          default:
+            hours: 4
+          selector:
+            duration:
+        turn_off_when_done:
+          name: Turn off switch when complete
+          default: true
+          selector:
+            boolean: {}
+        turn_off_on_timeout:
+          name: Turn off switch on timeout
+          default: false
+          selector:
+            boolean: {}
+    actions_section:
+      name: Actions
+      icon: mdi:play-box-multiple-outline
+      input:
+        start_action:
+          name: Start action
+          description: Runs after the super-cold switch is turned on.
+          default: []
+          selector:
+            action: {}
+        complete_action:
+          name: Complete action
+          description: Runs when the cycle completes before the timeout.
+          default: []
+          selector:
+            action: {}
+        timeout_action:
+          name: Timeout action
+          description: Runs when the cycle reaches the configured max runtime.
+          default: []
+          selector:
+            action: {}
+
+variables:
+  super_cold_switch: !input super_cold_switch
+  freezer_completion_sensor: !input freezer_completion_sensor
+  refrigerator_completion_sensor: !input refrigerator_completion_sensor
+  turn_off_when_done: !input turn_off_when_done
+  turn_off_on_timeout: !input turn_off_on_timeout
+
+triggers:
+  - triggers: !input cycle_trigger
+
+actions:
+  - variables:
+      has_freezer_completion_sensor: >-
+        {{ freezer_completion_sensor | length > 0 }}
+      has_refrigerator_completion_sensor: >-
+        {{ refrigerator_completion_sensor | length > 0 }}
+      has_completion_sensors: >-
+        {{
+          has_freezer_completion_sensor
+          or has_refrigerator_completion_sensor
+        }}
+      super_cold_switch_name: >-
+        {{
+          state_attr(super_cold_switch, "friendly_name")
+          or super_cold_switch
+        }}
+  - action: switch.turn_on
+    target:
+      entity_id: !input super_cold_switch
+  - choose: []
+    default: !input start_action
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ has_completion_sensors }}"
+        sequence:
+          - wait_template: >-
+              {% set freezer_done =
+                not has_freezer_completion_sensor
+                or states(freezer_completion_sensor) in ["complete", "on"]
+              %}
+              {% set refrigerator_done =
+                not has_refrigerator_completion_sensor
+                or states(refrigerator_completion_sensor) in ["complete", "on"]
+              %}
+              {{ freezer_done and refrigerator_done }}
+            timeout: !input max_runtime
+            continue_on_timeout: true
+      - conditions:
+          - condition: template
+            value_template: "{{ not has_completion_sensors }}"
+        sequence:
+          - delay: !input max_runtime
+  - variables:
+      freezer_completion_state: >-
+        {{
+          states(freezer_completion_sensor)
+          if has_freezer_completion_sensor
+          else "not_configured"
+        }}
+      refrigerator_completion_state: >-
+        {{
+          states(refrigerator_completion_sensor)
+          if has_refrigerator_completion_sensor
+          else "not_configured"
+        }}
+      cycle_completed: >-
+        {{
+          wait.completed
+          if has_completion_sensors
+          else false
+        }}
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ cycle_completed }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ turn_off_when_done }}"
+            then:
+              - action: switch.turn_off
+                target:
+                  entity_id: !input super_cold_switch
+          - choose: []
+            default: !input complete_action
+      - conditions:
+          - condition: template
+            value_template: "{{ not cycle_completed }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ turn_off_on_timeout }}"
+            then:
+              - action: switch.turn_off
+                target:
+                  entity_id: !input super_cold_switch
+          - choose: []
+            default: !input timeout_action
+
+mode: restart
+max_exceeded: silent

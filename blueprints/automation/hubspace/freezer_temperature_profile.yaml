@@ -1,0 +1,194 @@
+---
+blueprint:
+  name: Hubspace Freezer Temperature Profile
+  description: >-
+    Apply temporary Hubspace freezer target temperatures for a fixed duration,
+    then optionally restore the previous values.
+
+    Available action variables:
+    - `freezer_target_name`
+    - `fridge_target_name`
+    - `original_freezer_target`
+    - `original_fridge_target`
+    - `fridge_profile_enabled`
+    - `restore_previous_targets`
+  domain: automation
+  author: SenexCrenshaw
+  homeassistant:
+    min_version: 2025.7.0
+  input:
+    trigger_section:
+      name: Trigger
+      icon: mdi:lightning-bolt-outline
+      input:
+        profile_trigger:
+          name: Start trigger
+          description: >-
+            Choose the trigger that should apply the
+            temporary temperature profile.
+          selector:
+            trigger: {}
+    entity_section:
+      name: Entities
+      icon: mdi:thermometer-lines
+      input:
+        freezer_target_entity:
+          name: Freezer target temperature
+          description: >-
+            Select the Hubspace freezer target temperature
+            number entity.
+          selector:
+            entity:
+              filter:
+                - domain: number
+        fridge_target_entity:
+          name: Fridge target temperature
+          description: >-
+            Optional. Select the Hubspace fridge target
+            temperature number entity if you also want
+            to adjust the refrigerator target.
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: number
+    profile_section:
+      name: Profile Settings
+      icon: mdi:tune-variant
+      input:
+        desired_freezer_target:
+          name: Temporary freezer target
+          description: >-
+            Enter the freezer target using your Home
+            Assistant display units.
+          default: -18
+          selector:
+            number:
+              min: -40
+              max: 50
+              step: 1
+              mode: box
+        adjust_fridge_target:
+          name: Adjust fridge target too
+          default: false
+          selector:
+            boolean: {}
+        desired_fridge_target:
+          name: Temporary fridge target
+          description: >-
+            Enter the fridge target using your Home
+            Assistant display units.
+          default: 4
+          selector:
+            number:
+              min: -40
+              max: 50
+              step: 1
+              mode: box
+        profile_duration:
+          name: Profile duration
+          default:
+            hours: 2
+          selector:
+            duration:
+        restore_previous_targets:
+          name: Restore previous targets after the profile
+          default: true
+          selector:
+            boolean: {}
+    actions_section:
+      name: Actions
+      icon: mdi:play-box-multiple-outline
+      input:
+        start_action:
+          name: Start action
+          description: Runs after the temporary targets are applied.
+          default: []
+          selector:
+            action: {}
+        restore_action:
+          name: Restore action
+          description: Runs after the previous targets are restored.
+          default: []
+          selector:
+            action: {}
+
+variables:
+  freezer_target_entity: !input freezer_target_entity
+  fridge_target_entity: !input fridge_target_entity
+  desired_freezer_target: !input desired_freezer_target
+  desired_fridge_target: !input desired_fridge_target
+  adjust_fridge_target: !input adjust_fridge_target
+  restore_previous_targets: !input restore_previous_targets
+
+triggers:
+  - triggers: !input profile_trigger
+
+actions:
+  - variables:
+      freezer_target_name: >-
+        {{
+          state_attr(freezer_target_entity, "friendly_name")
+          or freezer_target_entity
+        }}
+      fridge_target_name: >-
+        {{
+          state_attr(fridge_target_entity, "friendly_name")
+          or fridge_target_entity
+          if fridge_target_entity | length > 0
+          else "not_configured"
+        }}
+      fridge_profile_enabled: >-
+        {{
+          adjust_fridge_target
+          and fridge_target_entity | length > 0
+        }}
+      original_freezer_target: "{{ states(freezer_target_entity) | float(0) }}"
+      original_fridge_target: >-
+        {{
+          states(fridge_target_entity) | float(0)
+          if fridge_target_entity | length > 0
+          else none
+        }}
+  - action: number.set_value
+    target:
+      entity_id: !input freezer_target_entity
+    data:
+      value: !input desired_freezer_target
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ fridge_profile_enabled }}"
+        sequence:
+          - action: number.set_value
+            target:
+              entity_id: !input fridge_target_entity
+            data:
+              value: !input desired_fridge_target
+  - choose: []
+    default: !input start_action
+  - delay: !input profile_duration
+  - if:
+      - condition: template
+        value_template: "{{ restore_previous_targets }}"
+    then:
+      - action: number.set_value
+        target:
+          entity_id: !input freezer_target_entity
+        data:
+          value: "{{ original_freezer_target }}"
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ fridge_profile_enabled }}"
+            sequence:
+              - action: number.set_value
+                target:
+                  entity_id: !input fridge_target_entity
+                data:
+                  value: "{{ original_fridge_target }}"
+      - choose: []
+        default: !input restore_action
+
+mode: restart
+max_exceeded: silent

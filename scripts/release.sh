@@ -21,7 +21,7 @@ Usage:
 
 Behavior:
   - Bump mode updates custom_components/hubspace/manifest.json, commits the version bump
-    plus any staged changes, creates an annotated tag matching the manifest version,
+    plus all current repo changes, creates an annotated tag matching the manifest version,
     then optionally pushes and creates a GitHub release.
   - Current mode skips the version bump and commit, and just tags/releases the current HEAD.
   - Push defaults to on. Dry-run disables push unless you explicitly pass --push.
@@ -129,12 +129,6 @@ ensure_branch() {
   branch="$(current_branch)"
   if [[ "$branch" == "HEAD" ]]; then
     die "detached HEAD is not supported for release automation"
-  fi
-}
-
-ensure_no_unstaged_tracked_changes() {
-  if ! git -C "$ROOT_DIR" diff --quiet --ignore-submodules --; then
-    die "unstaged tracked changes detected; stage or stash them first"
   fi
 }
 
@@ -260,10 +254,8 @@ CURRENT_VERSION="$(read_manifest_version)"
 NEXT_VERSION="$CURRENT_VERSION"
 
 if [[ "$CURRENT_ONLY" -eq 1 ]]; then
-  ensure_no_unstaged_tracked_changes
   ensure_no_staged_changes
 else
-  ensure_no_unstaged_tracked_changes
   NEXT_VERSION="$(resolve_version "$CURRENT_VERSION" "$VERSION_ARG")"
   if [[ "$NEXT_VERSION" == "$CURRENT_VERSION" ]]; then
     die "next version matches current manifest version '$CURRENT_VERSION'"
@@ -273,6 +265,7 @@ fi
 ensure_tag_missing "$NEXT_VERSION"
 
 if [[ "$CURRENT_ONLY" -eq 0 ]]; then
+  run git -C "$ROOT_DIR" add -A
   run write_manifest_version "$NEXT_VERSION"
   run git -C "$ROOT_DIR" add "$MANIFEST_PATH"
   if [[ -z "$COMMIT_MESSAGE" ]]; then

@@ -254,13 +254,50 @@ click `SUBMIT`. Entities should start appearing shortly after clicking submit.
 After discovered, the poll time can be configured for quicker or longer
 polling intervals. By default, Hubspace is polled once every 30 seconds.
 
+## Automation Blueprints
+
+This repo includes optional freezer-focused automation blueprints for Home Assistant `2025.7`
+and newer. HACS does not install or update these blueprints for you. Import them manually
+from the GitHub file URL, and re-import them later if you want blueprint updates from this repo.
+
+Import path in Home Assistant:
+
+- `Settings -> Automations & scenes -> Blueprints -> Import Blueprint`
+
+Available blueprints:
+
+- [Freezer safety alerts](./blueprints/automation/hubspace/freezer_safety_alerts.yaml)
+
+  - Watches Hubspace freezer alert binary sensors and runs alert and clear actions.
+  - Expected entities: freezer high temp alert, fridge high temp alert, sensor failure, MCU communication failure binary sensors.
+  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_safety_alerts.yaml`
+
+- [Freezer super cold cycle](./blueprints/automation/hubspace/freezer_super_cold_cycle.yaml)
+
+  - Starts the Hubspace super-cold switch from any trigger and optionally reports completion or timeout.
+  - Expected entities: `switch.*_super_cold`, optional `sensor.*_freezer_super_cold_status`, optional `sensor.*_refrigerator_super_cold_status`.
+  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_super_cold_cycle.yaml`
+
+- [Freezer temperature profile](./blueprints/automation/hubspace/freezer_temperature_profile.yaml)
+
+  - Applies temporary freezer and optional fridge target temperatures, then restores the previous values.
+  - Expected entities: `number.*_freezer_target_temperature`, optional `number.*_fridge_target_temperature`.
+  - Import URL: `https://github.com/SenexCrenshaw/Hubspace-Homeassistant/blob/main/blueprints/automation/hubspace/freezer_temperature_profile.yaml`
+
+Notes:
+
+- these blueprints are optional helpers; they do not add or change Hubspace entities
+- blueprint updates are manual re-imports; HACS will continue to manage only the integration itself
+- imported blueprints can be customized per automation from the Home Assistant UI after import
+
 ## Release Workflow
 
 Use the make targets below to bump the version in
 `custom_components/hubspace/manifest.json`, create a release commit,
 create an annotated git tag, and publish a GitHub release.
-If you have staged changes, they are included in the release commit.
-If you do not, the release commit contains the version bump only.
+The bump commands stage the current repo changes automatically before
+creating the release commit. If nothing else changed, the release commit
+contains just the version bump.
 
 ```bash
 make release-patch
@@ -274,7 +311,7 @@ Notes:
 
 - push is on by default; `DRY_RUN=1` suppresses push unless you explicitly set `PUSH=1`
 - GitHub release creation is on by default; set `GH_RELEASE=0` if you explicitly want to skip publishing a GitHub release
-- `make release-patch`, `make release-minor`, and `make release-major` work with or without staged changes
+- `make release-patch`, `make release-minor`, and `make release-major` automatically stage the current repo changes
 - `make publish-current` skips the version bump and commit, and just tags/releases the current `HEAD` using the version already present in `manifest.json`
 - the GitHub release step uses `gh release create --generate-notes`, so the GitHub CLI must be installed and authenticated
 

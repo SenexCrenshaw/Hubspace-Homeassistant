@@ -1,0 +1,296 @@
+---
+blueprint:
+  name: Hubspace Freezer Safety Alerts
+  description: >-
+    Monitor selected Hubspace freezer alert binary sensors and run actions when
+    an alert starts or when all selected alerts clear.
+
+    Available action variables:
+    - `trigger_entity_id`
+    - `trigger_entity_name`
+    - `active_alert_entities`
+    - `active_alert_names`
+    - `active_alert_count`
+    - `active_alert_summary`
+  domain: automation
+  author: SenexCrenshaw
+  homeassistant:
+    min_version: 2025.7.0
+  input:
+    alert_entities_section:
+      name: Alert Entities
+      icon: mdi:alert-outline
+      input:
+        freezer_high_temp_alerts:
+          name: Freezer high temp alerts
+          description: >-
+            Select any Hubspace freezer high temperature alert
+            entities.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: binary_sensor
+        fridge_high_temp_alerts:
+          name: Fridge high temp alerts
+          description: >-
+            Select any Hubspace fridge high temperature alert
+            entities.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: binary_sensor
+        sensor_failure_alerts:
+          name: Sensor failure alerts
+          description: >-
+            Select any Hubspace freezer temperature sensor
+            failure entities.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: binary_sensor
+        mcu_communication_failure_alerts:
+          name: MCU communication failure alerts
+          description: >-
+            Select any Hubspace MCU communication failure
+            entities.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: binary_sensor
+    behavior_section:
+      name: Alert Behavior
+      icon: mdi:timer-cog-outline
+      input:
+        alert_debounce:
+          name: Alert debounce
+          description: >-
+            How long an alert must stay on before the first
+            alert action runs.
+          default:
+            minutes: 1
+          selector:
+            duration:
+        repeat_interval:
+          name: Repeat interval
+          description: Set to 0 to send only the initial alert.
+          default:
+            hours: 0
+            minutes: 0
+            seconds: 0
+          selector:
+            duration:
+    actions_section:
+      name: Actions
+      icon: mdi:play-box-multiple-outline
+      input:
+        alert_action:
+          name: Alert action
+          description: Runs when any monitored alert turns on.
+          selector:
+            action: {}
+        clear_action:
+          name: Clear action
+          description: Runs when all monitored alerts return to off.
+          default: []
+          selector:
+            action: {}
+
+variables:
+  freezer_high_temp_alerts: !input freezer_high_temp_alerts
+  fridge_high_temp_alerts: !input fridge_high_temp_alerts
+  sensor_failure_alerts: !input sensor_failure_alerts
+  mcu_communication_failure_alerts: !input mcu_communication_failure_alerts
+  repeat_interval: !input repeat_interval
+  monitored_entities: >-
+    {{
+      freezer_high_temp_alerts
+      + fridge_high_temp_alerts
+      + sensor_failure_alerts
+      + mcu_communication_failure_alerts
+    }}
+
+triggers:
+  - trigger: event
+    event_type: state_changed
+
+conditions:
+  - condition: template
+    value_template: "{{ monitored_entities | count > 0 }}"
+  - condition: template
+    value_template: "{{ trigger.event.data.entity_id in monitored_entities }}"
+  - condition: template
+    value_template: >-
+      {% set old_state =
+        trigger.event.data.old_state.state
+        if trigger.event.data.old_state is not none
+        else none
+      %}
+      {% set new_state =
+        trigger.event.data.new_state.state
+        if trigger.event.data.new_state is not none
+        else none
+      %}
+      {{
+        (old_state != "on" and new_state == "on")
+        or (old_state == "on" and new_state == "off")
+      }}
+
+actions:
+  - variables:
+      trigger_entity_id: "{{ trigger.event.data.entity_id }}"
+      trigger_entity_name: >-
+        {{
+          trigger.event.data.new_state.attributes.friendly_name
+          if trigger.event.data.new_state is not none
+          else (
+            trigger.event.data.old_state.attributes.friendly_name
+            if trigger.event.data.old_state is not none
+            else trigger.event.data.entity_id
+          )
+        }}
+      active_alert_entities: >-
+        {{ monitored_entities | select("is_state", "on") | list }}
+      active_alert_names: >-
+        {% set ns = namespace(names=[]) %}
+        {% for entity_id in monitored_entities if is_state(entity_id, "on") %}
+          {% set ns.names =
+            ns.names + [state_attr(entity_id, "friendly_name") or entity_id]
+          %}
+        {% endfor %}
+        {{ ns.names }}
+      active_alert_count: "{{ active_alert_entities | count }}"
+      active_alert_summary: >-
+        {{
+          active_alert_names | join(", ")
+          if active_alert_names | count > 0
+          else "No active alerts"
+        }}
+      repeat_enabled: >-
+        {{
+          repeat_interval.days | default(0) | int(0) > 0
+          or repeat_interval.hours | default(0) | int(0) > 0
+          or repeat_interval.minutes | default(0) | int(0) > 0
+          or repeat_interval.seconds | default(0) | int(0) > 0
+        }}
+      trigger_started_alert: >-
+        {{
+          trigger.event.data.new_state is not none
+          and trigger.event.data.new_state.state == "on"
+        }}
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger_started_alert }}"
+        sequence:
+          - delay: !input alert_debounce
+          - variables:
+              active_alert_entities: >-
+                {{ monitored_entities | select("is_state", "on") | list }}
+              active_alert_names: >-
+                {% set ns = namespace(names=[]) %}
+                {% for entity_id in monitored_entities
+                  if is_state(entity_id, "on")
+                %}
+                  {% set ns.names =
+                    ns.names
+                    + [state_attr(entity_id, "friendly_name") or entity_id]
+                  %}
+                {% endfor %}
+                {{ ns.names }}
+              active_alert_count: "{{ active_alert_entities | count }}"
+              active_alert_summary: >-
+                {{
+                  active_alert_names | join(", ")
+                  if active_alert_names | count > 0
+                  else "No active alerts"
+                }}
+          - if:
+              - condition: template
+                value_template: "{{ is_state(trigger_entity_id, 'on') }}"
+            then:
+              - choose: []
+                default: !input alert_action
+              - if:
+                  - condition: template
+                    value_template: "{{ repeat_enabled }}"
+                then:
+                  - repeat:
+                      while:
+                        - condition: template
+                          value_template: >-
+                            {{
+                              monitored_entities
+                              | select("is_state", "on")
+                              | list
+                              | count > 0
+                            }}
+                      sequence:
+                        - delay: !input repeat_interval
+                        - variables:
+                            active_alert_entities: >-
+                              {{
+                                monitored_entities
+                                | select("is_state", "on")
+                                | list
+                              }}
+                            active_alert_names: >-
+                              {% set ns = namespace(names=[]) %}
+                              {% for entity_id in monitored_entities
+                                if is_state(entity_id, "on")
+                              %}
+                                {% set ns.names =
+                                  ns.names
+                                  + [
+                                    state_attr(entity_id, "friendly_name")
+                                    or entity_id
+                                  ]
+                                %}
+                              {% endfor %}
+                              {{ ns.names }}
+                            active_alert_count: >-
+                              {{ active_alert_entities | count }}
+                            active_alert_summary: >-
+                              {{
+                                active_alert_names | join(", ")
+                                if active_alert_names | count > 0
+                                else "No active alerts"
+                              }}
+                        - if:
+                            - condition: template
+                              value_template: >-
+                                {{ active_alert_entities | count > 0 }}
+                          then:
+                            - choose: []
+                              default: !input alert_action
+      - conditions:
+          - condition: template
+            value_template: "{{ not trigger_started_alert }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: >-
+                  {{
+                    monitored_entities
+                    | select("is_state", "on")
+                    | list
+                    | count == 0
+                  }}
+            then:
+              - variables:
+                  active_alert_entities: []
+                  active_alert_names: []
+                  active_alert_count: 0
+                  active_alert_summary: No active alerts
+              - choose: []
+                default: !input clear_action
+
+mode: restart
+max_exceeded: silent
