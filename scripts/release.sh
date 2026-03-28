@@ -7,7 +7,8 @@ MANIFEST_PATH="$ROOT_DIR/custom_components/hubspace/manifest.json"
 REMOTE="origin"
 PUSH=1
 PUSH_EXPLICIT=0
-GITHUB_RELEASE=0
+GITHUB_RELEASE=1
+GITHUB_RELEASE_EXPLICIT=0
 DRY_RUN=0
 CURRENT_ONLY=0
 COMMIT_MESSAGE=""
@@ -15,8 +16,8 @@ COMMIT_MESSAGE=""
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/release.sh <patch|minor|major|X.Y.Z> [--push|--no-push] [--github-release] [--remote <name>] [--message <text>] [--dry-run]
-  scripts/release.sh --current [--push|--no-push] [--github-release] [--remote <name>] [--dry-run]
+  scripts/release.sh <patch|minor|major|X.Y.Z> [--push|--no-push] [--github-release|--no-github-release] [--remote <name>] [--message <text>] [--dry-run]
+  scripts/release.sh --current [--push|--no-push] [--github-release|--no-github-release] [--remote <name>] [--message <text>] [--dry-run]
 
 Behavior:
   - Bump mode updates custom_components/hubspace/manifest.json, commits the version bump
@@ -24,10 +25,12 @@ Behavior:
     then optionally pushes and creates a GitHub release.
   - Current mode skips the version bump and commit, and just tags/releases the current HEAD.
   - Push defaults to on. Dry-run disables push unless you explicitly pass --push.
+  - GitHub release creation defaults to on. Pass --no-github-release if you only want
+    a local commit/tag or a pushed tag without a GitHub release.
 
 Examples:
-  ./scripts/release.sh patch --push --github-release
-  ./scripts/release.sh 6.1.1 --no-push
+  ./scripts/release.sh patch
+  ./scripts/release.sh 6.1.1 --no-github-release
   ./scripts/release.sh --current --dry-run
 EOF
 }
@@ -148,7 +151,7 @@ ensure_tag_missing() {
 }
 
 create_github_release() {
-  if ! command -v gh >/dev/null 2>&1; then
+  if [[ "$DRY_RUN" -eq 0 ]] && ! command -v gh >/dev/null 2>&1; then
     die "gh CLI is required for --github-release"
   fi
 
@@ -175,8 +178,14 @@ while [[ $# -gt 0 ]]; do
       ;;
     --github-release)
       GITHUB_RELEASE=1
+      GITHUB_RELEASE_EXPLICIT=1
       PUSH=1
       PUSH_EXPLICIT=1
+      shift
+      ;;
+    --no-github-release)
+      GITHUB_RELEASE=0
+      GITHUB_RELEASE_EXPLICIT=1
       shift
       ;;
     --remote)
@@ -220,8 +229,10 @@ else
   [[ -n "$VERSION_ARG" ]] || die "missing required version argument"
 fi
 
-if [[ "$DRY_RUN" -eq 1 && "$PUSH_EXPLICIT" -eq 0 && "$GITHUB_RELEASE" -eq 0 ]]; then
+if [[ "$DRY_RUN" -eq 1 && "$PUSH_EXPLICIT" -eq 0 ]]; then
   PUSH=0
+elif [[ "$GITHUB_RELEASE" -eq 1 ]]; then
+  PUSH=1
 fi
 
 if ! git -C "$ROOT_DIR" remote get-url "$REMOTE" >/dev/null 2>&1; then

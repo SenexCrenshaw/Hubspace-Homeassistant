@@ -258,23 +258,25 @@ polling intervals. By default, Hubspace is polled once every 30 seconds.
 
 Use the make targets below to bump the version in
 `custom_components/hubspace/manifest.json`, create a release commit,
-create an annotated git tag, and optionally push and publish a GitHub release.
+create an annotated git tag, and publish a GitHub release.
 If you have staged changes, they are included in the release commit.
 If you do not, the release commit contains the version bump only.
 
 ```bash
 make release-patch
-make release-minor PUSH=1
-make release VERSION=6.1.1 PUSH=1 GH_RELEASE=1
-make publish-current PUSH=1 GH_RELEASE=1
+make release-minor
+make release VERSION=6.1.1
+make publish-current
+make release-patch GH_RELEASE=0
 ```
 
 Notes:
 
 - push is on by default; `DRY_RUN=1` suppresses push unless you explicitly set `PUSH=1`
+- GitHub release creation is on by default; set `GH_RELEASE=0` if you explicitly want to skip publishing a GitHub release
 - `make release-patch`, `make release-minor`, and `make release-major` work with or without staged changes
 - `make publish-current` skips the version bump and commit, and just tags/releases the current `HEAD` using the version already present in `manifest.json`
-- `GH_RELEASE=1` uses `gh release create --generate-notes`, so the GitHub CLI must be installed and authenticated
+- the GitHub release step uses `gh release create --generate-notes`, so the GitHub CLI must be installed and authenticated
 
 ### Configuration Troubleshooting
 

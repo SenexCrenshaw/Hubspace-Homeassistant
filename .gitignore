@@ -1,6 +1,11 @@
-__pycache__
+__pycache__/
+*.py[cod]
 .idea/
-custom_components/hubspace/dump_*.json
-.coverage
+custom_components/hubspace/_dump*.json
+.coverage*
 *.egg-info
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
 .venv/
