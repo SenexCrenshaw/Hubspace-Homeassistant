@@ -5,7 +5,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST_PATH="$ROOT_DIR/custom_components/hubspace/manifest.json"
 REMOTE="origin"
-PUSH=0
+PUSH=1
+PUSH_EXPLICIT=0
 GITHUB_RELEASE=0
 DRY_RUN=0
 CURRENT_ONLY=0
@@ -14,8 +15,8 @@ COMMIT_MESSAGE=""
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/release.sh <patch|minor|major|X.Y.Z> [--push] [--github-release] [--remote <name>] [--message <text>] [--dry-run]
-  scripts/release.sh --current [--push] [--github-release] [--remote <name>] [--dry-run]
+  scripts/release.sh <patch|minor|major|X.Y.Z> [--push|--no-push] [--github-release] [--remote <name>] [--message <text>] [--dry-run]
+  scripts/release.sh --current [--push|--no-push] [--github-release] [--remote <name>] [--dry-run]
 
 Behavior:
   - Bump mode expects your release changes to already be staged.
@@ -23,11 +24,12 @@ Behavior:
     creates an annotated tag matching the manifest version, then optionally pushes and
     creates a GitHub release.
   - Current mode skips the version bump and commit, and just tags/releases the current HEAD.
+  - Push defaults to on. Dry-run disables push unless you explicitly pass --push.
 
 Examples:
   ./scripts/release.sh patch --push --github-release
-  ./scripts/release.sh 6.1.1 --push
-  ./scripts/release.sh --current --push --github-release
+  ./scripts/release.sh 6.1.1 --no-push
+  ./scripts/release.sh --current --dry-run
 EOF
 }
 
@@ -170,11 +172,18 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --push)
       PUSH=1
+      PUSH_EXPLICIT=1
+      shift
+      ;;
+    --no-push)
+      PUSH=0
+      PUSH_EXPLICIT=1
       shift
       ;;
     --github-release)
       GITHUB_RELEASE=1
       PUSH=1
+      PUSH_EXPLICIT=1
       shift
       ;;
     --remote)
@@ -216,6 +225,10 @@ if [[ "$CURRENT_ONLY" -eq 1 ]]; then
   [[ -z "$VERSION_ARG" ]] || die "--current does not accept a version argument"
 else
   [[ -n "$VERSION_ARG" ]] || die "missing required version argument"
+fi
+
+if [[ "$DRY_RUN" -eq 1 && "$PUSH_EXPLICIT" -eq 0 && "$GITHUB_RELEASE" -eq 0 ]]; then
+  PUSH=0
 fi
 
 if ! git -C "$ROOT_DIR" remote get-url "$REMOTE" >/dev/null 2>&1; then

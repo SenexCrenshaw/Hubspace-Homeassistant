@@ -269,6 +269,7 @@ make publish-current PUSH=1 GH_RELEASE=1
 
 Notes:
 
+- push is on by default; `DRY_RUN=1` suppresses push unless you explicitly set `PUSH=1`
 - `make release-patch`, `make release-minor`, and `make release-major` expect your intended release changes to already be staged
 - `make publish-current` skips the version bump and commit, and just tags/releases the current `HEAD` using the version already present in `manifest.json`
 - `GH_RELEASE=1` uses `gh release create --generate-notes`, so the GitHub CLI must be installed and authenticated
