@@ -11,7 +11,9 @@ freezer = freezer_from_file[0]
 
 freezer_parent_child_from_file = create_devices_from_data("freezer-parent-child.json")
 freezer_parent_child = next(
-    device for device in freezer_parent_child_from_file if device.device_class == "freezer"
+    device
+    for device in freezer_parent_child_from_file
+    if device.device_class == "freezer"
 )
 
 FREEZER_ENTITY_IDS = {
@@ -119,7 +121,9 @@ async def test_freezer_number_select_and_switch_services(mocked_freezer):
     await bridge.async_block_until_done()
     await hass.async_block_till_done()
 
-    freezer_number = hass.states.get("number.friendly_device_0_freezer_target_temperature")
+    freezer_number = hass.states.get(
+        "number.friendly_device_0_freezer_target_temperature"
+    )
     mode_select = hass.states.get("select.friendly_device_0_mode")
     super_cold = hass.states.get("switch.friendly_device_0_super_cold")
 
@@ -175,10 +179,14 @@ async def test_freezer_entity_updates_from_raw_events(mocked_entry):
     await bridge.generate_devices_from_data([freezer_update])
     await hass.async_block_till_done()
 
-    freezer_number = hass.states.get("number.friendly_device_0_freezer_target_temperature")
+    freezer_number = hass.states.get(
+        "number.friendly_device_0_freezer_target_temperature"
+    )
     mode_select = hass.states.get("select.friendly_device_0_mode")
     super_cold = hass.states.get("switch.friendly_device_0_super_cold")
-    freezer_status = hass.states.get("sensor.friendly_device_0_freezer_super_cold_status")
+    freezer_status = hass.states.get(
+        "sensor.friendly_device_0_freezer_super_cold_status"
+    )
 
     assert freezer_number is not None
     assert float(freezer_number.state) == -16

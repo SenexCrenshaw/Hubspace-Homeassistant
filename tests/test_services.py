@@ -169,9 +169,15 @@ async def test_service_deprecated_args(hass, mocker, mocked_bridge, caplog):
     mocker.patch(
         "custom_components.hubspace.bridge.AferoBridgeV1", return_value=mocked_bridge
     )
+    mocker.patch(
+        "custom_components.hubspace.bridge.aiohttp_client.async_get_clientsession",
+        return_value=mocker.AsyncMock(),
+    )
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
     assert (
         "The deprecated argument hass was passed to verify_domain_control from hubspace. It will be removed in HA Core 2026.10."
         not in caplog.text
     )
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()

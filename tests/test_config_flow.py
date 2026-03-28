@@ -35,6 +35,18 @@ def mocked_config_flow(mocked_bridge, mocker):
         "custom_components.hubspace.config_flow.AferoBridgeV1",
         return_value=mocked_bridge,
     )
+    mocker.patch(
+        "custom_components.hubspace.bridge.AferoBridgeV1",
+        return_value=mocker.Mock(),
+    )
+    mocker.patch(
+        "custom_components.hubspace.bridge.aiohttp_client.async_get_clientsession",
+        return_value=mocker.AsyncMock(),
+    )
+    mocker.patch(
+        "custom_components.hubspace.HubspaceBridge.async_initialize_bridge",
+        new=mocker.AsyncMock(return_value=True),
+    )
     return mocked_bridge
 
 

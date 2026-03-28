@@ -200,7 +200,9 @@ async def async_setup_entry(
     )
     entities.extend(
         [
-            HubspaceFreezerNumberEntity(bridge, device_controller, resource, description)
+            HubspaceFreezerNumberEntity(
+                bridge, device_controller, resource, description
+            )
             for resource in device_controller
             if is_freezer_resource(resource)
             for description in FREEZER_NUMBERS.values()

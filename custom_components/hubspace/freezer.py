@@ -148,7 +148,9 @@ class HubspaceFreezerEntity(HubspaceBaseEntity):
         )
 
     @callback
-    def handle_freezer_event(self, event_type: EventType, event_data: dict | None) -> None:
+    def handle_freezer_event(
+        self, event_type: EventType, event_data: dict | None
+    ) -> None:
         """Merge raw freezer state updates."""
         if event_data is None:
             return
@@ -162,7 +164,7 @@ class HubspaceFreezerEntity(HubspaceBaseEntity):
 
     @callback
     def on_freezer_update(self) -> None:
-        """Hook for subclasses to update cached resource features."""
+        """Update cached resource features in subclasses."""
 
     def get_freezer_state(self, key: FreezerKey) -> Any:
         """Get the current raw freezer state."""

@@ -31,7 +31,7 @@ body:
       description: >-
         Place to upload ``_dump_hs_devices.json`` which contains device information. Upload the
         file and not the contents of the file.
-        [How to generate file](https://github.com/jdeath/Hubspace-Homeassistant?tab=readme-ov-file#troubleshooting) .
+        [How to generate file](https://github.com/SenexCrenshaw/Hubspace-Homeassistant?tab=readme-ov-file#troubleshooting) .
         This link does not open a new tab.
   - type: textarea
     attributes:

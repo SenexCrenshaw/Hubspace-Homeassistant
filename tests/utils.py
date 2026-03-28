@@ -1,6 +1,5 @@
 """Assists in executing tests by making it easy to load data dumps."""
 
-import asyncio
 import datetime
 import json
 import os

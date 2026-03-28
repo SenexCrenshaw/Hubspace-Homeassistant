@@ -85,7 +85,7 @@ const ALERT_SPECS = [
 ];
 
 const ENTITY_SPECS = [...CONTROL_SPECS, ...STATUS_SPECS, ...ALERT_SPECS].sort(
-  (left, right) => right.suffix.length - left.suffix.length
+  (left, right) => right.suffix.length - left.suffix.length,
 );
 
 const FREEZER_MARKER_KEYS = new Set([
@@ -161,7 +161,9 @@ class HubspaceFreezerPanel extends HTMLElement {
 
   _matchSpec(entityId) {
     return ENTITY_SPECS.find((spec) => {
-      return entityId.startsWith(`${spec.domain}.`) && entityId.endsWith(spec.suffix);
+      return (
+        entityId.startsWith(`${spec.domain}.`) && entityId.endsWith(spec.suffix)
+      );
     });
   }
 
@@ -179,7 +181,9 @@ class HubspaceFreezerPanel extends HTMLElement {
   }
 
   _deriveLabel(groupId, spec, stateObj) {
-    const friendlyName = String(stateObj?.attributes?.friendly_name || "").trim();
+    const friendlyName = String(
+      stateObj?.attributes?.friendly_name || "",
+    ).trim();
     if (!friendlyName) {
       return this._humanizeSlug(groupId);
     }
@@ -274,13 +278,13 @@ class HubspaceFreezerPanel extends HTMLElement {
 
   _overviewCard(groups) {
     const activeAlertEntities = groups.flatMap((group) =>
-      this._activeAlertEntities(group)
+      this._activeAlertEntities(group),
     );
     const activeSuperCold = groups.filter((group) =>
-      this._isOn(this._entityId(group, "controls", "super_cold"))
+      this._isOn(this._entityId(group, "controls", "super_cold")),
     ).length;
     const devicesWithAlerts = groups.filter(
-      (group) => this._activeAlertEntities(group).length > 0
+      (group) => this._activeAlertEntities(group).length > 0,
     ).length;
 
     const card = document.createElement("ha-card");
@@ -311,20 +315,25 @@ class HubspaceFreezerPanel extends HTMLElement {
   }
 
   _summaryCard(group) {
-    const mode = this._stateText(this._entityId(group, "controls", "mode"), "unknown");
+    const mode = this._stateText(
+      this._entityId(group, "controls", "mode"),
+      "unknown",
+    );
     const units = this._stateText(
       this._entityId(group, "controls", "temperature_units"),
-      "unknown"
+      "unknown",
     );
     const freezerTarget = this._stateText(
       this._entityId(group, "controls", "freezer_target"),
-      "unknown"
+      "unknown",
     );
     const fridgeTarget = this._stateText(
       this._entityId(group, "controls", "fridge_target"),
-      "unknown"
+      "unknown",
     );
-    const superCold = this._isOn(this._entityId(group, "controls", "super_cold"))
+    const superCold = this._isOn(
+      this._entityId(group, "controls", "super_cold"),
+    )
       ? "on"
       : "off";
     const activeAlerts = this._activeAlertEntities(group);
@@ -332,14 +341,14 @@ class HubspaceFreezerPanel extends HTMLElement {
       activeAlerts.length > 0
         ? "var(--error-color)"
         : superCold === "on"
-          ? "var(--warning-color)"
-          : "var(--success-color)";
+        ? "var(--warning-color)"
+        : "var(--success-color)";
     const statusText =
       activeAlerts.length > 0
         ? `${activeAlerts.length} alert${activeAlerts.length === 1 ? "" : "s"}`
         : superCold === "on"
-          ? "super cold active"
-          : "normal";
+        ? "super cold active"
+        : "normal";
 
     const card = document.createElement("ha-card");
     card.innerHTML = `
@@ -393,7 +402,9 @@ class HubspaceFreezerPanel extends HTMLElement {
     if (!this._helpersPromise) {
       const loadHelpers = window.loadCardHelpers;
       this._helpersPromise =
-        typeof loadHelpers === "function" ? loadHelpers() : Promise.resolve(undefined);
+        typeof loadHelpers === "function"
+          ? loadHelpers()
+          : Promise.resolve(undefined);
     }
     const helpers = await this._helpersPromise;
     if (helpers?.createCardElement) {
@@ -574,7 +585,9 @@ class HubspaceFreezerPanel extends HTMLElement {
 
     const mount = this.shadowRoot.querySelector("#content");
     if (!this._hass) {
-      mount.append(this._emptyCard("Home Assistant state is not available yet."));
+      mount.append(
+        this._emptyCard("Home Assistant state is not available yet."),
+      );
       return;
     }
 
@@ -582,8 +595,8 @@ class HubspaceFreezerPanel extends HTMLElement {
     if (!groups.length) {
       mount.append(
         this._emptyCard(
-          "No Hubspace freezer entities were found. Reload the integration after your freezer entities appear."
-        )
+          "No Hubspace freezer entities were found. Reload the integration after your freezer entities appear.",
+        ),
       );
       return;
     }
@@ -608,15 +621,15 @@ class HubspaceFreezerPanel extends HTMLElement {
         this._summaryCard(group),
         await this._entitiesCard(
           `${group.label} Controls`,
-          this._sectionEntities(group, "controls", CONTROL_ORDER)
+          this._sectionEntities(group, "controls", CONTROL_ORDER),
         ),
         await this._entitiesCard(
           `${group.label} Status`,
-          this._sectionEntities(group, "status", STATUS_ORDER)
+          this._sectionEntities(group, "status", STATUS_ORDER),
         ),
         await this._entitiesCard(
           `${group.label} Alerts`,
-          this._sectionEntities(group, "alerts", ALERT_ORDER)
+          this._sectionEntities(group, "alerts", ALERT_ORDER),
         ),
       ];
 

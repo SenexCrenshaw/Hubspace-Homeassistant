@@ -313,6 +313,26 @@ async def test_panel_removed_on_unload(mocked_entry, mocker):
 
 
 @pytest.mark.asyncio
+async def test_panel_registration_skips_without_http(mocked_entry, mocker):
+    """Ensure panel registration fails open before HTTP is ready."""
+    hass, entry, _ = mocked_entry
+    hass.http = None
+    register_panel = mocker.patch(
+        "custom_components.hubspace.async_register_built_in_panel"
+    )
+
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    register_panel.assert_not_called()
+    assert hass.data[hubspace.PANEL_DATA_KEY]["registered"] is False
+    assert "entry_count" not in hass.data[hubspace.PANEL_DATA_KEY]
+
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()
+
+
+@pytest.mark.asyncio
 async def test_reload(hass, mocker):
     """Ensure we can reload the config entry."""
     fan_zandra = create_devices_from_data("fan-ZandraFan.json")

@@ -6,12 +6,14 @@
         "data": {
           "username": "Username",
           "password": "Password",
+          "client": "Client",
           "timeout": "Connection Timeout",
           "polling_time": "Polling time"
         },
         "data_description": {
           "username": "Hubspace Username",
           "password": "Hubspace Password",
+          "client": "Afero client profile to use for the login",
           "timeout": "Connection Timeout (Default: 10000)",
           "polling_time": "Time in seconds between polling intervals (Default: 30)"
         }

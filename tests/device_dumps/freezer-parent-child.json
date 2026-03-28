@@ -1,1114 +1,1013 @@
 [
-    {
-        "id": "7bc91982-abfb-4462-9276-f390f7491131",
-        "device_id": "4e1bb641-beb0-40fe-b5fb-a083fc1cbca4",
-        "model": null,
-        "device_class": null,
-        "default_name": null,
-        "default_image": null,
-        "friendly_name": "Home",
-        "capabilities": [],
-        "functions": [],
-        "states": [],
-        "children": [
-            "1c04887a-d381-49d4-90a8-93da3c86f919"
-        ],
-        "manufacturerName": null,
-        "split_identifier": null,
-        "version_data": null
-    },
-    {
-        "id": "1c04887a-d381-49d4-90a8-93da3c86f919",
-        "device_id": "2fd21a1e-273e-44c6-8215-fd39065c474f",
-        "model": "Smart Freezer",
-        "device_class": "freezer",
-        "default_name": "Smart Freezer",
-        "default_image": "chest-freezer-icon",
-        "friendly_name": "Outside 1",
-        "capabilities": [
+  {
+    "id": "7bc91982-abfb-4462-9276-f390f7491131",
+    "device_id": "4e1bb641-beb0-40fe-b5fb-a083fc1cbca4",
+    "model": null,
+    "device_class": null,
+    "default_name": null,
+    "default_image": null,
+    "friendly_name": "Home",
+    "capabilities": [],
+    "functions": [],
+    "states": [],
+    "children": ["1c04887a-d381-49d4-90a8-93da3c86f919"],
+    "manufacturerName": null,
+    "split_identifier": null,
+    "version_data": null
+  },
+  {
+    "id": "1c04887a-d381-49d4-90a8-93da3c86f919",
+    "device_id": "2fd21a1e-273e-44c6-8215-fd39065c474f",
+    "model": "Smart Freezer",
+    "device_class": "freezer",
+    "default_name": "Smart Freezer",
+    "default_image": "chest-freezer-icon",
+    "friendly_name": "Outside 1",
+    "capabilities": [
+      {
+        "functionClass": "available",
+        "type": "boolean",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "visible",
+        "type": "boolean",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "direct",
+        "type": "boolean",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "ble-mac-address",
+        "type": "string",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "geo-coordinates",
+        "type": "object",
+        "schedulable": null,
+        "functionInstance": "system-device-location",
+        "_opts": {}
+      },
+      {
+        "functionClass": "scheduler-flags",
+        "type": "numeric",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "wifi-ssid",
+        "type": "string",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "wifi-rssi",
+        "type": "numeric",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "wifi-steady-state",
+        "type": "category",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {
+          "values": [
+            "not-connected",
+            "pending",
+            "connected",
+            "unknown-failure",
+            "association-failure",
+            "handshake-failed",
+            "echo-failed",
+            "ssid-not-found",
+            "ntp-failed"
+          ],
+          "categoryValues": [
             {
-                "functionClass": "available",
-                "type": "boolean",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "not-connected",
+              "values": ["0"]
             },
             {
-                "functionClass": "visible",
-                "type": "boolean",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "pending",
+              "values": ["1"]
             },
             {
-                "functionClass": "direct",
-                "type": "boolean",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "connected",
+              "values": ["2"]
             },
             {
-                "functionClass": "ble-mac-address",
-                "type": "string",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "unknown-failure",
+              "values": ["3"]
             },
             {
-                "functionClass": "geo-coordinates",
-                "type": "object",
-                "schedulable": null,
-                "functionInstance": "system-device-location",
-                "_opts": {}
+              "name": "association-failure",
+              "values": ["4"]
             },
             {
-                "functionClass": "scheduler-flags",
-                "type": "numeric",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "handshake-failed",
+              "values": ["5"]
             },
             {
-                "functionClass": "wifi-ssid",
-                "type": "string",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "echo-failed",
+              "values": ["6"]
             },
             {
-                "functionClass": "wifi-rssi",
-                "type": "numeric",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
+              "name": "ssid-not-found",
+              "values": ["7"]
             },
             {
-                "functionClass": "wifi-steady-state",
-                "type": "category",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {
-                    "values": [
-                        "not-connected",
-                        "pending",
-                        "connected",
-                        "unknown-failure",
-                        "association-failure",
-                        "handshake-failed",
-                        "echo-failed",
-                        "ssid-not-found",
-                        "ntp-failed"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "not-connected",
-                            "values": [
-                                "0"
-                            ]
-                        },
-                        {
-                            "name": "pending",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "connected",
-                            "values": [
-                                "2"
-                            ]
-                        },
-                        {
-                            "name": "unknown-failure",
-                            "values": [
-                                "3"
-                            ]
-                        },
-                        {
-                            "name": "association-failure",
-                            "values": [
-                                "4"
-                            ]
-                        },
-                        {
-                            "name": "handshake-failed",
-                            "values": [
-                                "5"
-                            ]
-                        },
-                        {
-                            "name": "echo-failed",
-                            "values": [
-                                "6"
-                            ]
-                        },
-                        {
-                            "name": "ssid-not-found",
-                            "values": [
-                                "7"
-                            ]
-                        },
-                        {
-                            "name": "ntp-failed",
-                            "values": [
-                                "8"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "wifi-setup-state",
-                "type": "category",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {
-                    "values": [
-                        "not-connected",
-                        "pending",
-                        "connected",
-                        "unknown-failure",
-                        "association-failure",
-                        "handshake-failed",
-                        "echo-failed",
-                        "ssid-not-found",
-                        "ntp-failed"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "not-connected",
-                            "values": [
-                                "0"
-                            ]
-                        },
-                        {
-                            "name": "pending",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "connected",
-                            "values": [
-                                "2"
-                            ]
-                        },
-                        {
-                            "name": "unknown-failure",
-                            "values": [
-                                "3"
-                            ]
-                        },
-                        {
-                            "name": "association-failure",
-                            "values": [
-                                "4"
-                            ]
-                        },
-                        {
-                            "name": "handshake-failed",
-                            "values": [
-                                "5"
-                            ]
-                        },
-                        {
-                            "name": "echo-failed",
-                            "values": [
-                                "6"
-                            ]
-                        },
-                        {
-                            "name": "ssid-not-found",
-                            "values": [
-                                "7"
-                            ]
-                        },
-                        {
-                            "name": "ntp-failed",
-                            "values": [
-                                "8"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "wifi-mac-address",
-                "type": "string",
-                "schedulable": null,
-                "functionInstance": null,
-                "_opts": {}
-            },
-            {
-                "functionClass": "error",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "temperature-sensor-failure",
-                "_opts": {
-                    "values": [
-                        "alerting",
-                        "normal"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "alerting",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "normal",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "super-cold-completed",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "freezer",
-                "_opts": {
-                    "values": [
-                        "on",
-                        "complete"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "on",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "complete",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "super-cold-completed",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "refrigerator",
-                "_opts": {
-                    "values": [
-                        "on",
-                        "complete"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "on",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "complete",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "error",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "freezer-high-temperature-alert",
-                "_opts": {
-                    "values": [
-                        "alerting",
-                        "normal"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "alerting",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "normal",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "error",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "fridge-high-temperature-alert",
-                "_opts": {
-                    "values": [
-                        "alerting",
-                        "normal"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "alerting",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "normal",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "error",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "mcu-communication-failure",
-                "_opts": {
-                    "values": [
-                        "alerting",
-                        "normal"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "alerting",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "normal",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "temperature-units",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": null,
-                "_opts": {
-                    "values": [
-                        "celsius",
-                        "fahrenheit"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "celsius",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "fahrenheit",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "temperature",
-                "type": "numeric",
-                "schedulable": false,
-                "functionInstance": "freezer-target",
-                "_opts": {
-                    "range": {
-                        "min": -11,
-                        "max": 10,
-                        "step": 1
-                    }
-                }
-            },
-            {
-                "functionClass": "temperature",
-                "type": "numeric",
-                "schedulable": false,
-                "functionInstance": "fridge-target",
-                "_opts": {
-                    "range": {
-                        "min": 34,
-                        "max": 50,
-                        "step": 1
-                    }
-                }
-            },
-            {
-                "functionClass": "super-cold",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": "super-cold",
-                "_opts": {
-                    "values": [
-                        "on",
-                        "off"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "on",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "off",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "functionClass": "mode",
-                "type": "category",
-                "schedulable": false,
-                "functionInstance": null,
-                "_opts": {
-                    "values": [
-                        "freezer",
-                        "refrigerator"
-                    ],
-                    "categoryValues": [
-                        {
-                            "name": "freezer",
-                            "values": [
-                                "1"
-                            ]
-                        },
-                        {
-                            "name": "refrigerator",
-                            "values": [
-                                "0"
-                            ]
-                        }
-                    ]
-                }
+              "name": "ntp-failed",
+              "values": ["8"]
             }
-        ],
-        "functions": [
+          ]
+        }
+      },
+      {
+        "functionClass": "wifi-setup-state",
+        "type": "category",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {
+          "values": [
+            "not-connected",
+            "pending",
+            "connected",
+            "unknown-failure",
+            "association-failure",
+            "handshake-failed",
+            "echo-failed",
+            "ssid-not-found",
+            "ntp-failed"
+          ],
+          "categoryValues": [
             {
-                "id": "5d38bbd3-b555-40a4-a0f0-bf69e7e9264f",
-                "createdTimestampMs": 1724889025598,
-                "updatedTimestampMs": 1724889025598,
-                "functionClass": "error",
-                "functionInstance": "temperature-sensor-failure",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "e6895fb5-c404-4c46-b76c-0210f059d4ad",
-                        "createdTimestampMs": 1724889025618,
-                        "updatedTimestampMs": 1724889025618,
-                        "name": "alerting",
-                        "deviceValues": [
-                            {
-                                "id": "f2c6e5e5-778b-4c03-b3f5-a0ad53ae3d5f",
-                                "createdTimestampMs": 1724889025625,
-                                "updatedTimestampMs": 1724889025625,
-                                "type": "attribute",
-                                "key": "405",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "98559dab-0d7c-4a9d-84bc-8b0da3b83592",
-                        "createdTimestampMs": 1724889025607,
-                        "updatedTimestampMs": 1724889025607,
-                        "name": "normal",
-                        "deviceValues": [
-                            {
-                                "id": "31a273b7-432a-4c25-af18-1845a6e60305",
-                                "createdTimestampMs": 1724889025613,
-                                "updatedTimestampMs": 1724889025613,
-                                "type": "attribute",
-                                "key": "405",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "not-connected",
+              "values": ["0"]
             },
             {
-                "id": "273514cf-be5b-4416-b22a-96845ee3f1e3",
-                "createdTimestampMs": 1724889025571,
-                "updatedTimestampMs": 1724889025571,
-                "functionClass": "super-cold-completed",
-                "functionInstance": "freezer",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "c2ef8186-b3d7-4048-ba58-4758a5361706",
-                        "createdTimestampMs": 1724889025587,
-                        "updatedTimestampMs": 1724889025587,
-                        "name": "on",
-                        "deviceValues": [
-                            {
-                                "id": "0681a2f9-9a94-486e-b9b3-00f95f804e33",
-                                "createdTimestampMs": 1724889025593,
-                                "updatedTimestampMs": 1724889025593,
-                                "type": "attribute",
-                                "key": "404",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "fe39b519-3f77-483a-bd1e-b576e57bbd0b",
-                        "createdTimestampMs": 1724889025577,
-                        "updatedTimestampMs": 1724889025577,
-                        "name": "complete",
-                        "deviceValues": [
-                            {
-                                "id": "a7a8e506-3a8f-47e3-81f6-2bf1915cd393",
-                                "createdTimestampMs": 1724889025583,
-                                "updatedTimestampMs": 1724889025583,
-                                "type": "attribute",
-                                "key": "404",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "pending",
+              "values": ["1"]
             },
             {
-                "id": "3c4da5b7-f12d-44a2-8856-2c54a1252999",
-                "createdTimestampMs": 1724889025545,
-                "updatedTimestampMs": 1724889025545,
-                "functionClass": "super-cold-completed",
-                "functionInstance": "refrigerator",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "ce5a7112-4eb3-445c-88fe-ed531ecfb7c1",
-                        "createdTimestampMs": 1724889025561,
-                        "updatedTimestampMs": 1724889025561,
-                        "name": "on",
-                        "deviceValues": [
-                            {
-                                "id": "25310bcd-bbd5-48e8-94a5-88fa852f8bc1",
-                                "createdTimestampMs": 1724889025567,
-                                "updatedTimestampMs": 1724889025567,
-                                "type": "attribute",
-                                "key": "403",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "41c815a0-6501-4e05-b78a-5af90380573c",
-                        "createdTimestampMs": 1724889025551,
-                        "updatedTimestampMs": 1724889025551,
-                        "name": "complete",
-                        "deviceValues": [
-                            {
-                                "id": "bdc18a10-1db2-4a72-9318-73986eb75f1f",
-                                "createdTimestampMs": 1724889025557,
-                                "updatedTimestampMs": 1724889025557,
-                                "type": "attribute",
-                                "key": "403",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "connected",
+              "values": ["2"]
             },
             {
-                "id": "c69b0bb6-edb6-4083-858e-ac0fc64b9f91",
-                "createdTimestampMs": 1724889025517,
-                "updatedTimestampMs": 1724889025517,
-                "functionClass": "error",
-                "functionInstance": "freezer-high-temperature-alert",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "2666a780-0b21-4b8a-9923-d3a976b5fa2d",
-                        "createdTimestampMs": 1724889025534,
-                        "updatedTimestampMs": 1724889025534,
-                        "name": "alerting",
-                        "deviceValues": [
-                            {
-                                "id": "747440fe-fec6-4d8e-8ea5-37095dd23df0",
-                                "createdTimestampMs": 1724889025541,
-                                "updatedTimestampMs": 1724889025541,
-                                "type": "attribute",
-                                "key": "402",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "60fc0f74-4ac8-4b0f-86ed-157edfaef81b",
-                        "createdTimestampMs": 1724889025524,
-                        "updatedTimestampMs": 1724889025524,
-                        "name": "normal",
-                        "deviceValues": [
-                            {
-                                "id": "49a95606-49b5-4767-b9dc-6a4c6f4f4428",
-                                "createdTimestampMs": 1724889025530,
-                                "updatedTimestampMs": 1724889025530,
-                                "type": "attribute",
-                                "key": "402",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "unknown-failure",
+              "values": ["3"]
             },
             {
-                "id": "4a6a3fc2-6984-4cab-bfce-90b90765f97e",
-                "createdTimestampMs": 1724889025483,
-                "updatedTimestampMs": 1724889025483,
-                "functionClass": "error",
-                "functionInstance": "fridge-high-temperature-alert",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "ff407785-b0a4-4f26-888d-725354c5c8fa",
-                        "createdTimestampMs": 1724889025506,
-                        "updatedTimestampMs": 1724889025506,
-                        "name": "alerting",
-                        "deviceValues": [
-                            {
-                                "id": "87c757d1-f142-4218-9c41-a2c71e47e0f8",
-                                "createdTimestampMs": 1724889025513,
-                                "updatedTimestampMs": 1724889025513,
-                                "type": "attribute",
-                                "key": "401",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "682cd251-eff5-4cb0-8a23-530cc1e49487",
-                        "createdTimestampMs": 1724889025490,
-                        "updatedTimestampMs": 1724889025490,
-                        "name": "normal",
-                        "deviceValues": [
-                            {
-                                "id": "34d103f7-292e-45b3-acdb-14852ec7bb68",
-                                "createdTimestampMs": 1724889025496,
-                                "updatedTimestampMs": 1724889025496,
-                                "type": "attribute",
-                                "key": "401",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "association-failure",
+              "values": ["4"]
             },
             {
-                "id": "48e17206-95cd-471c-a59e-870ec8c403e4",
-                "createdTimestampMs": 1724889025454,
-                "updatedTimestampMs": 1724889025454,
-                "functionClass": "error",
-                "functionInstance": "mcu-communication-failure",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "cac45852-e793-4815-b7b1-784caa41d036",
-                        "createdTimestampMs": 1724889025472,
-                        "updatedTimestampMs": 1724889025472,
-                        "name": "alerting",
-                        "deviceValues": [
-                            {
-                                "id": "80c08801-8038-49ce-9c05-551d435e5d0f",
-                                "createdTimestampMs": 1724889025479,
-                                "updatedTimestampMs": 1724889025479,
-                                "type": "attribute",
-                                "key": "400",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "5349898b-7235-43e3-938f-2359be23a08f",
-                        "createdTimestampMs": 1724889025460,
-                        "updatedTimestampMs": 1724889025460,
-                        "name": "normal",
-                        "deviceValues": [
-                            {
-                                "id": "4697a8e6-7837-489e-9e72-777645e92652",
-                                "createdTimestampMs": 1724889025468,
-                                "updatedTimestampMs": 1724889025468,
-                                "type": "attribute",
-                                "key": "400",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "handshake-failed",
+              "values": ["5"]
             },
             {
-                "id": "ec134055-d7f4-4d05-ad69-1ad341fbe7fa",
-                "createdTimestampMs": 1724889025427,
-                "updatedTimestampMs": 1724889025427,
-                "functionClass": "temperature-units",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "db4a6848-c5f8-4a01-a8ea-a603f8bc2447",
-                        "createdTimestampMs": 1724889025443,
-                        "updatedTimestampMs": 1724889025443,
-                        "name": "celsius",
-                        "deviceValues": [
-                            {
-                                "id": "3f6a9db2-a7d0-4385-9e27-4a545090d872",
-                                "createdTimestampMs": 1724889025450,
-                                "updatedTimestampMs": 1724889025450,
-                                "type": "attribute",
-                                "key": "202",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "9583dd8c-4841-43a3-a73d-f07cdeb50766",
-                        "createdTimestampMs": 1724889025433,
-                        "updatedTimestampMs": 1724889025433,
-                        "name": "fahrenheit",
-                        "deviceValues": [
-                            {
-                                "id": "393c371c-0992-426c-a3cb-d5dcef12138e",
-                                "createdTimestampMs": 1724889025439,
-                                "updatedTimestampMs": 1724889025439,
-                                "type": "attribute",
-                                "key": "202",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "echo-failed",
+              "values": ["6"]
             },
             {
-                "id": "80d457c4-f301-43ae-a1c6-c3a0ad2d470d",
-                "createdTimestampMs": 1724889025409,
-                "updatedTimestampMs": 1724889025409,
-                "functionClass": "temperature",
-                "functionInstance": "freezer-target",
-                "type": "numeric",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "429d3e7d-0e41-494c-8ee4-fdeb9232b041",
-                        "createdTimestampMs": 1724889025416,
-                        "updatedTimestampMs": 1724889025416,
-                        "name": "freezer-target",
-                        "deviceValues": [
-                            {
-                                "id": "035592e6-91a6-481c-9fcb-8644d0b8d409",
-                                "createdTimestampMs": 1724889025422,
-                                "updatedTimestampMs": 1724889025422,
-                                "type": "attribute",
-                                "key": "11"
-                            }
-                        ],
-                        "range": {
-                            "min": -24.0,
-                            "max": -12.0,
-                            "step": 1.0
-                        }
-                    }
-                ]
+              "name": "ssid-not-found",
+              "values": ["7"]
             },
             {
-                "id": "46446ca4-594c-4837-bedd-505cd4eb668d",
-                "createdTimestampMs": 1724889025391,
-                "updatedTimestampMs": 1724889025391,
-                "functionClass": "temperature",
-                "functionInstance": "fridge-target",
-                "type": "numeric",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "975ccb71-6afa-40f5-82aa-4236bb6279fc",
-                        "createdTimestampMs": 1724889025398,
-                        "updatedTimestampMs": 1724889025398,
-                        "name": "fridge-target",
-                        "deviceValues": [
-                            {
-                                "id": "9df43def-44ed-4036-af8a-8b2a20e0511c",
-                                "createdTimestampMs": 1724889025405,
-                                "updatedTimestampMs": 1724889025405,
-                                "type": "attribute",
-                                "key": "10"
-                            }
-                        ],
-                        "range": {
-                            "min": 1.0,
-                            "max": 10.0,
-                            "step": 1.0
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "851f8f4f-bf48-4ae9-903b-16fc6c266cc6",
-                "createdTimestampMs": 1724889025358,
-                "updatedTimestampMs": 1724889025358,
-                "functionClass": "super-cold",
-                "functionInstance": "super-cold",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "ebe37e49-c50c-43fa-978d-3593ff47fbd4",
-                        "createdTimestampMs": 1724889025380,
-                        "updatedTimestampMs": 1724889025380,
-                        "name": "on",
-                        "deviceValues": [
-                            {
-                                "id": "e9ee68dc-39a1-42b0-9a2b-9ec7b8d44b71",
-                                "createdTimestampMs": 1724889025386,
-                                "updatedTimestampMs": 1724889025386,
-                                "type": "attribute",
-                                "key": "2",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "48d50eb4-5eb8-47fa-8cb7-e1ffdf7325e8",
-                        "createdTimestampMs": 1724889025367,
-                        "updatedTimestampMs": 1724889025367,
-                        "name": "off",
-                        "deviceValues": [
-                            {
-                                "id": "1eb3ddb2-6653-4e6c-a452-88f8766ffa74",
-                                "createdTimestampMs": 1724889025375,
-                                "updatedTimestampMs": 1724889025375,
-                                "type": "attribute",
-                                "key": "2",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
-            },
-            {
-                "id": "75ce8551-d818-413f-9866-d40d51d4ccc5",
-                "createdTimestampMs": 1724889025315,
-                "updatedTimestampMs": 1724889025315,
-                "functionClass": "mode",
-                "type": "category",
-                "schedulable": false,
-                "values": [
-                    {
-                        "id": "86f4d5ee-4c63-4001-b634-d5cba84960e8",
-                        "createdTimestampMs": 1724889025345,
-                        "updatedTimestampMs": 1724889025345,
-                        "name": "freezer",
-                        "deviceValues": [
-                            {
-                                "id": "c8ea6cd6-a2e3-42c7-a573-3318293150e2",
-                                "createdTimestampMs": 1724889025353,
-                                "updatedTimestampMs": 1724889025353,
-                                "type": "attribute",
-                                "key": "1",
-                                "value": "1"
-                            }
-                        ],
-                        "range": {}
-                    },
-                    {
-                        "id": "aca607ed-2b4b-49b1-b9fa-09645774cea7",
-                        "createdTimestampMs": 1724889025323,
-                        "updatedTimestampMs": 1724889025323,
-                        "name": "refrigerator",
-                        "deviceValues": [
-                            {
-                                "id": "74fe7fca-ac4b-4dd8-bb26-99499297d9da",
-                                "createdTimestampMs": 1724889025332,
-                                "updatedTimestampMs": 1724889025332,
-                                "type": "attribute",
-                                "key": "1",
-                                "value": "0"
-                            }
-                        ],
-                        "range": {}
-                    }
-                ]
+              "name": "ntp-failed",
+              "values": ["8"]
             }
-        ],
-        "states": [
+          ]
+        }
+      },
+      {
+        "functionClass": "wifi-mac-address",
+        "type": "string",
+        "schedulable": null,
+        "functionInstance": null,
+        "_opts": {}
+      },
+      {
+        "functionClass": "error",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "temperature-sensor-failure",
+        "_opts": {
+          "values": ["alerting", "normal"],
+          "categoryValues": [
             {
-                "functionClass": "error",
-                "value": "normal",
-                "lastUpdateTime": 0,
-                "functionInstance": "temperature-sensor-failure"
+              "name": "alerting",
+              "values": ["1"]
             },
             {
-                "functionClass": "super-cold-completed",
-                "value": "on",
-                "lastUpdateTime": 0,
-                "functionInstance": "freezer"
-            },
-            {
-                "functionClass": "super-cold-completed",
-                "value": "complete",
-                "lastUpdateTime": 0,
-                "functionInstance": "refrigerator"
-            },
-            {
-                "functionClass": "error",
-                "value": "normal",
-                "lastUpdateTime": 0,
-                "functionInstance": "freezer-high-temperature-alert"
-            },
-            {
-                "functionClass": "error",
-                "value": "normal",
-                "lastUpdateTime": 0,
-                "functionInstance": "fridge-high-temperature-alert"
-            },
-            {
-                "functionClass": "error",
-                "value": "normal",
-                "lastUpdateTime": 0,
-                "functionInstance": "mcu-communication-failure"
-            },
-            {
-                "functionClass": "temperature-units",
-                "value": "fahrenheit",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "temperature",
-                "value": -11,
-                "lastUpdateTime": 0,
-                "functionInstance": "freezer-target"
-            },
-            {
-                "functionClass": "temperature",
-                "value": 41,
-                "lastUpdateTime": 0,
-                "functionInstance": "fridge-target"
-            },
-            {
-                "functionClass": "super-cold",
-                "value": "on",
-                "lastUpdateTime": 0,
-                "functionInstance": "super-cold"
-            },
-            {
-                "functionClass": "mode",
-                "value": "freezer",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "wifi-ssid",
-                "value": "0dab863c-14a0-47e8-8e06-4c1ad9e32f2d",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "wifi-rssi",
-                "value": -45,
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "wifi-steady-state",
-                "value": "connected",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "wifi-setup-state",
-                "value": "connected",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "wifi-mac-address",
-                "value": "2109df48-cfc5-4729-a4aa-721843bc61bd",
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "geo-coordinates",
-                "value": {
-                    "geo-coordinates": {
-                        "latitude": "0",
-                        "longitude": "0"
-                    }
-                },
-                "lastUpdateTime": 0,
-                "functionInstance": "system-device-location"
-            },
-            {
-                "functionClass": "scheduler-flags",
-                "value": 0,
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "available",
-                "value": true,
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "visible",
-                "value": true,
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "direct",
-                "value": true,
-                "lastUpdateTime": 0,
-                "functionInstance": null
-            },
-            {
-                "functionClass": "ble-mac-address",
-                "value": "11c01311-7785-446a-a2e1-8dacad2f3161",
-                "lastUpdateTime": 0,
-                "functionInstance": null
+              "name": "normal",
+              "values": ["0"]
             }
-        ],
-        "children": [],
-        "manufacturerName": "Vissani",
-        "split_identifier": null,
-        "version_data": null
-    }
+          ]
+        }
+      },
+      {
+        "functionClass": "super-cold-completed",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "freezer",
+        "_opts": {
+          "values": ["on", "complete"],
+          "categoryValues": [
+            {
+              "name": "on",
+              "values": ["1"]
+            },
+            {
+              "name": "complete",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "super-cold-completed",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "refrigerator",
+        "_opts": {
+          "values": ["on", "complete"],
+          "categoryValues": [
+            {
+              "name": "on",
+              "values": ["1"]
+            },
+            {
+              "name": "complete",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "error",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "freezer-high-temperature-alert",
+        "_opts": {
+          "values": ["alerting", "normal"],
+          "categoryValues": [
+            {
+              "name": "alerting",
+              "values": ["1"]
+            },
+            {
+              "name": "normal",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "error",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "fridge-high-temperature-alert",
+        "_opts": {
+          "values": ["alerting", "normal"],
+          "categoryValues": [
+            {
+              "name": "alerting",
+              "values": ["1"]
+            },
+            {
+              "name": "normal",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "error",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "mcu-communication-failure",
+        "_opts": {
+          "values": ["alerting", "normal"],
+          "categoryValues": [
+            {
+              "name": "alerting",
+              "values": ["1"]
+            },
+            {
+              "name": "normal",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "temperature-units",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": null,
+        "_opts": {
+          "values": ["celsius", "fahrenheit"],
+          "categoryValues": [
+            {
+              "name": "celsius",
+              "values": ["1"]
+            },
+            {
+              "name": "fahrenheit",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "temperature",
+        "type": "numeric",
+        "schedulable": false,
+        "functionInstance": "freezer-target",
+        "_opts": {
+          "range": {
+            "min": -11,
+            "max": 10,
+            "step": 1
+          }
+        }
+      },
+      {
+        "functionClass": "temperature",
+        "type": "numeric",
+        "schedulable": false,
+        "functionInstance": "fridge-target",
+        "_opts": {
+          "range": {
+            "min": 34,
+            "max": 50,
+            "step": 1
+          }
+        }
+      },
+      {
+        "functionClass": "super-cold",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": "super-cold",
+        "_opts": {
+          "values": ["on", "off"],
+          "categoryValues": [
+            {
+              "name": "on",
+              "values": ["1"]
+            },
+            {
+              "name": "off",
+              "values": ["0"]
+            }
+          ]
+        }
+      },
+      {
+        "functionClass": "mode",
+        "type": "category",
+        "schedulable": false,
+        "functionInstance": null,
+        "_opts": {
+          "values": ["freezer", "refrigerator"],
+          "categoryValues": [
+            {
+              "name": "freezer",
+              "values": ["1"]
+            },
+            {
+              "name": "refrigerator",
+              "values": ["0"]
+            }
+          ]
+        }
+      }
+    ],
+    "functions": [
+      {
+        "id": "5d38bbd3-b555-40a4-a0f0-bf69e7e9264f",
+        "createdTimestampMs": 1724889025598,
+        "updatedTimestampMs": 1724889025598,
+        "functionClass": "error",
+        "functionInstance": "temperature-sensor-failure",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "e6895fb5-c404-4c46-b76c-0210f059d4ad",
+            "createdTimestampMs": 1724889025618,
+            "updatedTimestampMs": 1724889025618,
+            "name": "alerting",
+            "deviceValues": [
+              {
+                "id": "f2c6e5e5-778b-4c03-b3f5-a0ad53ae3d5f",
+                "createdTimestampMs": 1724889025625,
+                "updatedTimestampMs": 1724889025625,
+                "type": "attribute",
+                "key": "405",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "98559dab-0d7c-4a9d-84bc-8b0da3b83592",
+            "createdTimestampMs": 1724889025607,
+            "updatedTimestampMs": 1724889025607,
+            "name": "normal",
+            "deviceValues": [
+              {
+                "id": "31a273b7-432a-4c25-af18-1845a6e60305",
+                "createdTimestampMs": 1724889025613,
+                "updatedTimestampMs": 1724889025613,
+                "type": "attribute",
+                "key": "405",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "273514cf-be5b-4416-b22a-96845ee3f1e3",
+        "createdTimestampMs": 1724889025571,
+        "updatedTimestampMs": 1724889025571,
+        "functionClass": "super-cold-completed",
+        "functionInstance": "freezer",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "c2ef8186-b3d7-4048-ba58-4758a5361706",
+            "createdTimestampMs": 1724889025587,
+            "updatedTimestampMs": 1724889025587,
+            "name": "on",
+            "deviceValues": [
+              {
+                "id": "0681a2f9-9a94-486e-b9b3-00f95f804e33",
+                "createdTimestampMs": 1724889025593,
+                "updatedTimestampMs": 1724889025593,
+                "type": "attribute",
+                "key": "404",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "fe39b519-3f77-483a-bd1e-b576e57bbd0b",
+            "createdTimestampMs": 1724889025577,
+            "updatedTimestampMs": 1724889025577,
+            "name": "complete",
+            "deviceValues": [
+              {
+                "id": "a7a8e506-3a8f-47e3-81f6-2bf1915cd393",
+                "createdTimestampMs": 1724889025583,
+                "updatedTimestampMs": 1724889025583,
+                "type": "attribute",
+                "key": "404",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "3c4da5b7-f12d-44a2-8856-2c54a1252999",
+        "createdTimestampMs": 1724889025545,
+        "updatedTimestampMs": 1724889025545,
+        "functionClass": "super-cold-completed",
+        "functionInstance": "refrigerator",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "ce5a7112-4eb3-445c-88fe-ed531ecfb7c1",
+            "createdTimestampMs": 1724889025561,
+            "updatedTimestampMs": 1724889025561,
+            "name": "on",
+            "deviceValues": [
+              {
+                "id": "25310bcd-bbd5-48e8-94a5-88fa852f8bc1",
+                "createdTimestampMs": 1724889025567,
+                "updatedTimestampMs": 1724889025567,
+                "type": "attribute",
+                "key": "403",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "41c815a0-6501-4e05-b78a-5af90380573c",
+            "createdTimestampMs": 1724889025551,
+            "updatedTimestampMs": 1724889025551,
+            "name": "complete",
+            "deviceValues": [
+              {
+                "id": "bdc18a10-1db2-4a72-9318-73986eb75f1f",
+                "createdTimestampMs": 1724889025557,
+                "updatedTimestampMs": 1724889025557,
+                "type": "attribute",
+                "key": "403",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "c69b0bb6-edb6-4083-858e-ac0fc64b9f91",
+        "createdTimestampMs": 1724889025517,
+        "updatedTimestampMs": 1724889025517,
+        "functionClass": "error",
+        "functionInstance": "freezer-high-temperature-alert",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "2666a780-0b21-4b8a-9923-d3a976b5fa2d",
+            "createdTimestampMs": 1724889025534,
+            "updatedTimestampMs": 1724889025534,
+            "name": "alerting",
+            "deviceValues": [
+              {
+                "id": "747440fe-fec6-4d8e-8ea5-37095dd23df0",
+                "createdTimestampMs": 1724889025541,
+                "updatedTimestampMs": 1724889025541,
+                "type": "attribute",
+                "key": "402",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "60fc0f74-4ac8-4b0f-86ed-157edfaef81b",
+            "createdTimestampMs": 1724889025524,
+            "updatedTimestampMs": 1724889025524,
+            "name": "normal",
+            "deviceValues": [
+              {
+                "id": "49a95606-49b5-4767-b9dc-6a4c6f4f4428",
+                "createdTimestampMs": 1724889025530,
+                "updatedTimestampMs": 1724889025530,
+                "type": "attribute",
+                "key": "402",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "4a6a3fc2-6984-4cab-bfce-90b90765f97e",
+        "createdTimestampMs": 1724889025483,
+        "updatedTimestampMs": 1724889025483,
+        "functionClass": "error",
+        "functionInstance": "fridge-high-temperature-alert",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "ff407785-b0a4-4f26-888d-725354c5c8fa",
+            "createdTimestampMs": 1724889025506,
+            "updatedTimestampMs": 1724889025506,
+            "name": "alerting",
+            "deviceValues": [
+              {
+                "id": "87c757d1-f142-4218-9c41-a2c71e47e0f8",
+                "createdTimestampMs": 1724889025513,
+                "updatedTimestampMs": 1724889025513,
+                "type": "attribute",
+                "key": "401",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "682cd251-eff5-4cb0-8a23-530cc1e49487",
+            "createdTimestampMs": 1724889025490,
+            "updatedTimestampMs": 1724889025490,
+            "name": "normal",
+            "deviceValues": [
+              {
+                "id": "34d103f7-292e-45b3-acdb-14852ec7bb68",
+                "createdTimestampMs": 1724889025496,
+                "updatedTimestampMs": 1724889025496,
+                "type": "attribute",
+                "key": "401",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "48e17206-95cd-471c-a59e-870ec8c403e4",
+        "createdTimestampMs": 1724889025454,
+        "updatedTimestampMs": 1724889025454,
+        "functionClass": "error",
+        "functionInstance": "mcu-communication-failure",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "cac45852-e793-4815-b7b1-784caa41d036",
+            "createdTimestampMs": 1724889025472,
+            "updatedTimestampMs": 1724889025472,
+            "name": "alerting",
+            "deviceValues": [
+              {
+                "id": "80c08801-8038-49ce-9c05-551d435e5d0f",
+                "createdTimestampMs": 1724889025479,
+                "updatedTimestampMs": 1724889025479,
+                "type": "attribute",
+                "key": "400",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "5349898b-7235-43e3-938f-2359be23a08f",
+            "createdTimestampMs": 1724889025460,
+            "updatedTimestampMs": 1724889025460,
+            "name": "normal",
+            "deviceValues": [
+              {
+                "id": "4697a8e6-7837-489e-9e72-777645e92652",
+                "createdTimestampMs": 1724889025468,
+                "updatedTimestampMs": 1724889025468,
+                "type": "attribute",
+                "key": "400",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "ec134055-d7f4-4d05-ad69-1ad341fbe7fa",
+        "createdTimestampMs": 1724889025427,
+        "updatedTimestampMs": 1724889025427,
+        "functionClass": "temperature-units",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "db4a6848-c5f8-4a01-a8ea-a603f8bc2447",
+            "createdTimestampMs": 1724889025443,
+            "updatedTimestampMs": 1724889025443,
+            "name": "celsius",
+            "deviceValues": [
+              {
+                "id": "3f6a9db2-a7d0-4385-9e27-4a545090d872",
+                "createdTimestampMs": 1724889025450,
+                "updatedTimestampMs": 1724889025450,
+                "type": "attribute",
+                "key": "202",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "9583dd8c-4841-43a3-a73d-f07cdeb50766",
+            "createdTimestampMs": 1724889025433,
+            "updatedTimestampMs": 1724889025433,
+            "name": "fahrenheit",
+            "deviceValues": [
+              {
+                "id": "393c371c-0992-426c-a3cb-d5dcef12138e",
+                "createdTimestampMs": 1724889025439,
+                "updatedTimestampMs": 1724889025439,
+                "type": "attribute",
+                "key": "202",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "80d457c4-f301-43ae-a1c6-c3a0ad2d470d",
+        "createdTimestampMs": 1724889025409,
+        "updatedTimestampMs": 1724889025409,
+        "functionClass": "temperature",
+        "functionInstance": "freezer-target",
+        "type": "numeric",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "429d3e7d-0e41-494c-8ee4-fdeb9232b041",
+            "createdTimestampMs": 1724889025416,
+            "updatedTimestampMs": 1724889025416,
+            "name": "freezer-target",
+            "deviceValues": [
+              {
+                "id": "035592e6-91a6-481c-9fcb-8644d0b8d409",
+                "createdTimestampMs": 1724889025422,
+                "updatedTimestampMs": 1724889025422,
+                "type": "attribute",
+                "key": "11"
+              }
+            ],
+            "range": {
+              "min": -24.0,
+              "max": -12.0,
+              "step": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "id": "46446ca4-594c-4837-bedd-505cd4eb668d",
+        "createdTimestampMs": 1724889025391,
+        "updatedTimestampMs": 1724889025391,
+        "functionClass": "temperature",
+        "functionInstance": "fridge-target",
+        "type": "numeric",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "975ccb71-6afa-40f5-82aa-4236bb6279fc",
+            "createdTimestampMs": 1724889025398,
+            "updatedTimestampMs": 1724889025398,
+            "name": "fridge-target",
+            "deviceValues": [
+              {
+                "id": "9df43def-44ed-4036-af8a-8b2a20e0511c",
+                "createdTimestampMs": 1724889025405,
+                "updatedTimestampMs": 1724889025405,
+                "type": "attribute",
+                "key": "10"
+              }
+            ],
+            "range": {
+              "min": 1.0,
+              "max": 10.0,
+              "step": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "id": "851f8f4f-bf48-4ae9-903b-16fc6c266cc6",
+        "createdTimestampMs": 1724889025358,
+        "updatedTimestampMs": 1724889025358,
+        "functionClass": "super-cold",
+        "functionInstance": "super-cold",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "ebe37e49-c50c-43fa-978d-3593ff47fbd4",
+            "createdTimestampMs": 1724889025380,
+            "updatedTimestampMs": 1724889025380,
+            "name": "on",
+            "deviceValues": [
+              {
+                "id": "e9ee68dc-39a1-42b0-9a2b-9ec7b8d44b71",
+                "createdTimestampMs": 1724889025386,
+                "updatedTimestampMs": 1724889025386,
+                "type": "attribute",
+                "key": "2",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "48d50eb4-5eb8-47fa-8cb7-e1ffdf7325e8",
+            "createdTimestampMs": 1724889025367,
+            "updatedTimestampMs": 1724889025367,
+            "name": "off",
+            "deviceValues": [
+              {
+                "id": "1eb3ddb2-6653-4e6c-a452-88f8766ffa74",
+                "createdTimestampMs": 1724889025375,
+                "updatedTimestampMs": 1724889025375,
+                "type": "attribute",
+                "key": "2",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      },
+      {
+        "id": "75ce8551-d818-413f-9866-d40d51d4ccc5",
+        "createdTimestampMs": 1724889025315,
+        "updatedTimestampMs": 1724889025315,
+        "functionClass": "mode",
+        "type": "category",
+        "schedulable": false,
+        "values": [
+          {
+            "id": "86f4d5ee-4c63-4001-b634-d5cba84960e8",
+            "createdTimestampMs": 1724889025345,
+            "updatedTimestampMs": 1724889025345,
+            "name": "freezer",
+            "deviceValues": [
+              {
+                "id": "c8ea6cd6-a2e3-42c7-a573-3318293150e2",
+                "createdTimestampMs": 1724889025353,
+                "updatedTimestampMs": 1724889025353,
+                "type": "attribute",
+                "key": "1",
+                "value": "1"
+              }
+            ],
+            "range": {}
+          },
+          {
+            "id": "aca607ed-2b4b-49b1-b9fa-09645774cea7",
+            "createdTimestampMs": 1724889025323,
+            "updatedTimestampMs": 1724889025323,
+            "name": "refrigerator",
+            "deviceValues": [
+              {
+                "id": "74fe7fca-ac4b-4dd8-bb26-99499297d9da",
+                "createdTimestampMs": 1724889025332,
+                "updatedTimestampMs": 1724889025332,
+                "type": "attribute",
+                "key": "1",
+                "value": "0"
+              }
+            ],
+            "range": {}
+          }
+        ]
+      }
+    ],
+    "states": [
+      {
+        "functionClass": "error",
+        "value": "normal",
+        "lastUpdateTime": 0,
+        "functionInstance": "temperature-sensor-failure"
+      },
+      {
+        "functionClass": "super-cold-completed",
+        "value": "on",
+        "lastUpdateTime": 0,
+        "functionInstance": "freezer"
+      },
+      {
+        "functionClass": "super-cold-completed",
+        "value": "complete",
+        "lastUpdateTime": 0,
+        "functionInstance": "refrigerator"
+      },
+      {
+        "functionClass": "error",
+        "value": "normal",
+        "lastUpdateTime": 0,
+        "functionInstance": "freezer-high-temperature-alert"
+      },
+      {
+        "functionClass": "error",
+        "value": "normal",
+        "lastUpdateTime": 0,
+        "functionInstance": "fridge-high-temperature-alert"
+      },
+      {
+        "functionClass": "error",
+        "value": "normal",
+        "lastUpdateTime": 0,
+        "functionInstance": "mcu-communication-failure"
+      },
+      {
+        "functionClass": "temperature-units",
+        "value": "fahrenheit",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "temperature",
+        "value": -11,
+        "lastUpdateTime": 0,
+        "functionInstance": "freezer-target"
+      },
+      {
+        "functionClass": "temperature",
+        "value": 41,
+        "lastUpdateTime": 0,
+        "functionInstance": "fridge-target"
+      },
+      {
+        "functionClass": "super-cold",
+        "value": "on",
+        "lastUpdateTime": 0,
+        "functionInstance": "super-cold"
+      },
+      {
+        "functionClass": "mode",
+        "value": "freezer",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "wifi-ssid",
+        "value": "0dab863c-14a0-47e8-8e06-4c1ad9e32f2d",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "wifi-rssi",
+        "value": -45,
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "wifi-steady-state",
+        "value": "connected",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "wifi-setup-state",
+        "value": "connected",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "wifi-mac-address",
+        "value": "2109df48-cfc5-4729-a4aa-721843bc61bd",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "geo-coordinates",
+        "value": {
+          "geo-coordinates": {
+            "latitude": "0",
+            "longitude": "0"
+          }
+        },
+        "lastUpdateTime": 0,
+        "functionInstance": "system-device-location"
+      },
+      {
+        "functionClass": "scheduler-flags",
+        "value": 0,
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "available",
+        "value": true,
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "visible",
+        "value": true,
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "direct",
+        "value": true,
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      },
+      {
+        "functionClass": "ble-mac-address",
+        "value": "11c01311-7785-446a-a2e1-8dacad2f3161",
+        "lastUpdateTime": 0,
+        "functionInstance": null
+      }
+    ],
+    "children": [],
+    "manufacturerName": "Vissani",
+    "split_identifier": null,
+    "version_data": null
+  }
 ]

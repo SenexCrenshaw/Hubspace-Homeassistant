@@ -5,7 +5,7 @@ import json
 import os
 from pathlib import Path
 
-from aioafero import EventType, anonymize_devices, get_afero_device
+from aioafero import anonymize_devices, get_afero_device
 from aioafero.v1 import AferoBridgeV1
 import aiofiles
 from homeassistant.components.button import ButtonEntity
@@ -57,7 +57,7 @@ class DebugButton(ButtonEntity):
 
     async def async_press(self) -> None:
         """Handle the button press."""
-        data = await self.bridge.api.fetch_data()
+        data = await self.bridge.api.fetch_discovery_data()
         current_path: Path = Path(__file__.rsplit(os.sep, 1)[0])
         if self.instance == DebugButtonEnum.ANON:
             dev_dump = current_path / "_dump_hs_devices.json"
@@ -70,8 +70,6 @@ class DebugButton(ButtonEntity):
             self.logger.debug("Writing out raw data to %s", data_dump)
             async with aiofiles.open(data_dump, "w") as fh:
                 await fh.write(json.dumps(data, indent=4))
-        elif self.instance == DebugButtonEnum.REAUTH:
-            self.api.events.emit(EventType.INVALID_AUTH)
 
 
 async def async_setup_entry(
